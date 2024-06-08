@@ -8,7 +8,11 @@ const Drawer = createDrawerNavigator();
 
 const DrawerNavigator = () => {
   return (
-    <Drawer.Navigator drawerContent={(props) => <DrawerContent {...props} />}>
+    <Drawer.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+      drawerContent={(props) => <DrawerContent {...props} />}>
       <Drawer.Screen name="Home" component={BottomTabs} />
       <Drawer.Screen name="Profile" component={ProfileScreen} />
     </Drawer.Navigator>
@@ -16,3 +20,6 @@ const DrawerNavigator = () => {
 };
 
 export default DrawerNavigator;
+
+
+

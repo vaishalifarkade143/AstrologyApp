@@ -8,6 +8,7 @@ const Stack = createStackNavigator();
 
 const StackNavigator = () => {
   return (
+    
     <Stack.Navigator
       screenOptions={{
         headerShown: false,
@@ -19,3 +20,5 @@ const StackNavigator = () => {
 };
 
 export default StackNavigator;
+
+

@@ -1,17 +1,12 @@
-
-import * as React from 'react';
+import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { Appbar, Button } from 'react-native-paper';
+import { Button } from 'react-native-paper';
+import CustomAppbar from '../components/CustomAppbar';
 
 const HomeScreen = ({ navigation }) => {
   return (
     <>
- <Appbar.Header>
-       <Appbar.Content title="Title" subtitle={'Subtitle'} />
-        <Appbar.Action icon="magnify" onPress={() => {}} />
-        <Appbar.Action icon="dots-vertical" onPress={() => {}} />
-    </Appbar.Header>
-
+      <CustomAppbar navigation={navigation} title="Home" subtitle="Subtitle" />
       <View style={styles.container}>
         <Text style={styles.text}>Home Screen</Text>
         <Button mode="contained" onPress={() => navigation.navigate('Details')}>
@@ -35,4 +30,5 @@ const styles = StyleSheet.create({
 });
 
 export default HomeScreen;
+
 
