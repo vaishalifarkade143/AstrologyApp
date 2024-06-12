@@ -20,11 +20,10 @@ const BottomTabs = () => {
           }
           return <MaterialCommunityIcons name={iconName} color={color} size={size} />;
         },
+        tabBarActiveTintColor: 'tomato',
+        tabBarInactiveTintColor: 'gray',
       })}
-      tabBarOptions={{
-        activeTintColor: 'tomato',
-        inactiveTintColor: 'gray',
-      }}>
+    >
       <Tab.Screen name="Home" component={StackNavigator} />
       <Tab.Screen name="Settings" component={SettingsScreen} />
     </Tab.Navigator>
