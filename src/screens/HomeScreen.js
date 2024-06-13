@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { View, Text, StyleSheet, Dimensions, Image, FlatList } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, Image, FlatList, KeyboardAvoidingView } from 'react-native';
 import { Button, useTheme } from 'react-native-paper';
 import CustomAppbar from '../components/CustomAppbar';
 import Carousel from 'react-native-reanimated-carousel';
@@ -59,7 +59,11 @@ const HomeScreen = ({ navigation }) => {
   return (
     <>
       <CustomAppbar navigation={navigation} title="Home" subtitle="Subtitle" />
-      <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
+      <KeyboardAvoidingView
+        style={[styles.container, { backgroundColor: theme.colors.background }]}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      >
+        
         <Carousel
           loop
           width={viewportWidth}
@@ -71,12 +75,13 @@ const HomeScreen = ({ navigation }) => {
         />
         <FlatList
           data={flatListData}
+          showsHorizontalScrollIndicator={false}
           renderItem={renderFlatListItem}
           horizontal={true}
           keyExtractor={(item) => item.id}
           style={styles.flatList}
         />
-      </View>
+      </KeyboardAvoidingView>
     </>
   );
 };
@@ -92,7 +97,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     height: 350,
-    marginVertical: 10,
+    marginVertical: -5,
     marginHorizontal: 5,
   },
   itemImg: {
@@ -111,7 +116,8 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   flatList: {
-    marginTop: 200,
+    marginTop: 350,
+    position: 'absolute'
   },
   flatListItemContainer: {
     padding: 15,

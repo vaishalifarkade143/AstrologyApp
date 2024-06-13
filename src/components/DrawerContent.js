@@ -92,7 +92,7 @@ const DrawerContent = (props) => {
           )}
           label="Sign Out"
           labelStyle={{ color: theme.colors.text }}
-          onPress={() => { }}
+          onPress={() => { props.navigation.navigate('Login') }}
         />
       </Drawer.Section>
     </View>
