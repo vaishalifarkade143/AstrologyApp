@@ -1,10 +1,12 @@
+
 import React,{useEffect,useState}from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import StackNavigator from './StackNavigator';
-import SettingsScreen from '../screens/SettingsScreen';
+import AttendanceScreen from '../screens/AttendanceScreen';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Keyboard } from 'react-native';
-import LiveScreen from '../screens/LiveScreen';
+import NoticeScreen from '../screens/NoticeScreen';
+import FeesScreen from '../screens/FeesScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -33,11 +35,12 @@ const BottomTabs = () => {
           let iconName;
           if (route.name === 'Home') {
             iconName = 'home-outline';
-          } else if (route.name === 'Settings') {
+          } else if (route.name === 'Attendance') {
             iconName = 'cog-outline';
-          }
-          else if (route.name === 'Live') {
+          } else if (route.name === 'Fees') {
             iconName = 'video-account';
+          } else if (route.name === 'Notice') {
+            iconName = 'chat-processing-outline';
           }
           return <MaterialCommunityIcons name={iconName} color={color} size={size} />;
         },
@@ -46,8 +49,9 @@ const BottomTabs = () => {
       })}
     >
       <Tab.Screen name="Home" component={StackNavigator} />
-      <Tab.Screen name="Settings" component={SettingsScreen} />
-      <Tab.Screen name="Live" component={LiveScreen} />
+      <Tab.Screen name="Attendance" component={AttendanceScreen} />
+      <Tab.Screen name="Fees" component={FeesScreen} />
+      <Tab.Screen name="Notice" component={NoticeScreen} />
     </Tab.Navigator>
   );
 };

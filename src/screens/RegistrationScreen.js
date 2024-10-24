@@ -70,7 +70,7 @@
 
 import React from 'react';
 import { View, Text, StyleSheet, TextInput } from 'react-native';
-import { Button, useTheme } from 'react-native-paper';
+import { Button, useTheme,Card } from 'react-native-paper';
 
 const RegistrationScreen = ({ navigation }) => {
   const [email, setEmail] = React.useState('');
@@ -85,35 +85,39 @@ const RegistrationScreen = ({ navigation }) => {
 
   return (
     <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
-      <Text style={[styles.title, { color: theme.colors.text }]}>Register</Text>
-      <TextInput
-        style={[styles.input, { backgroundColor: theme.colors.surface, color: theme.colors.text }]}
-        placeholder="Email"
-        placeholderTextColor={theme.colors.text} // Set placeholder color
-        value={email}
-        onChangeText={setEmail}
-        keyboardType="email-address"
-      />
-      <TextInput
-        style={[styles.input, { backgroundColor: theme.colors.surface, color: theme.colors.text }]}
-        placeholder="Password"
-        placeholderTextColor={theme.colors.text} // Set placeholder color
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
-      />
-      <TextInput
-        style={[styles.input, { backgroundColor: theme.colors.surface, color: theme.colors.text }]}
-        placeholder="Confirm Password"
-        placeholderTextColor={theme.colors.text} // Set placeholder color
-        value={confirmPassword}
-        onChangeText={setConfirmPassword}
-        secureTextEntry
-      />
-      <Button mode="contained" onPress={handleRegister} 
-      style={{ marginTop: 16, backgroundColor: theme.colors.primary }}>
-        Register
-      </Button>
+      <Card style={styles.card}>
+        <Card.Content>
+          <Text style={[styles.title, { color: theme.colors.text }]}>Register</Text>
+          <TextInput
+            style={[styles.input, { backgroundColor: theme.colors.surface, color: theme.colors.text }]}
+            placeholder="Email"
+            placeholderTextColor={theme.colors.text} // Set placeholder color
+            value={email}
+            onChangeText={setEmail}
+            keyboardType="email-address"
+          />
+          <TextInput
+            style={[styles.input, { backgroundColor: theme.colors.surface, color: theme.colors.text }]}
+            placeholder="Password"
+            placeholderTextColor={theme.colors.text} // Set placeholder color
+            value={password}
+            onChangeText={setPassword}
+            secureTextEntry
+          />
+          <TextInput
+            style={[styles.input, { backgroundColor: theme.colors.surface, color: theme.colors.text }]}
+            placeholder="Confirm Password"
+            placeholderTextColor={theme.colors.text} // Set placeholder color
+            value={confirmPassword}
+            onChangeText={setConfirmPassword}
+            secureTextEntry
+          />
+          <Button mode="contained" onPress={handleRegister}
+            style={{ marginTop: 16, backgroundColor: theme.colors.primary }}>
+            Register
+          </Button>
+        </Card.Content>
+      </Card>
     </View>
   );
 };
@@ -128,6 +132,10 @@ const styles = StyleSheet.create({
     fontSize: 24,
     textAlign: 'center',
     marginBottom: 24,
+  },
+  card: {
+    borderRadius: 8,
+    elevation: 4,
   },
   input: {
     borderWidth: 1,

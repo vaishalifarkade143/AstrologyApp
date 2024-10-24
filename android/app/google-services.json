@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "847501431089",
+    "project_id": "astrologyapp-c40cd",
+    "storage_bucket": "astrologyapp-c40cd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:847501431089:android:74621c69bbc30a5c8ca010",
+        "android_client_info": {
+          "package_name": "com.astrologyapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB2CDs4YYtPA87Habw2V8OFThDTz3iR1b8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
