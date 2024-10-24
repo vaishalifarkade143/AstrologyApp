@@ -16,7 +16,7 @@ const DrawerContent = (props) => {
       <DrawerContentScrollView {...props}>
         <View style={styles.drawerContent}>
           <View style={styles.userInfoSection}>
-          <TouchableOpacity onPress={() => props.navigation.navigate('Login')}>
+          {/* <TouchableOpacity onPress={() => props.navigation.navigate('Login')}> */}
             <View style={{ flexDirection: 'row', marginTop: 15 }}>
               <Avatar.Image
                 source={require('../images/profile.png')}
@@ -27,7 +27,7 @@ const DrawerContent = (props) => {
                 <Caption style={[styles.caption, { color: theme.colors.text }]}>@johndoe</Caption>
               </View>
             </View>
-            </TouchableOpacity>
+            {/* </TouchableOpacity> */}
           </View>
 
           <Drawer.Section style={styles.drawerSection}>
