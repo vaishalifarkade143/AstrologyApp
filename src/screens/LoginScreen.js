@@ -9,6 +9,7 @@ const LoginScreen = ({ navigation }) => {
 
   const handleLogin = () => {
     // Add login logic here
+    navigation.navigate('Home');
     console.log('Login button pressed');
   };
 
@@ -37,10 +38,10 @@ const LoginScreen = ({ navigation }) => {
       style={[styles.button, { backgroundColor: theme.colors.primary }]}>
         Login
       </Button>
-
+{/* 
       <TouchableOpacity onPress={() => navigation.navigate('Register')}>
         <Text style={[styles.registerText, { color: theme.colors.primary }]}>Don't have an account? Register</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
       </Card.Content>
       </Card>
     </View>
