@@ -6,6 +6,7 @@ import { Provider as PaperProvider, DarkTheme as PaperDarkTheme, DefaultTheme as
 import merge from 'deepmerge';
 import DrawerNavigator from './src/navigation/DrawerNavigator';
 import { PreferencesContext } from './src/context/PreferencesContext';
+import StackNavigator from './src/navigation/StackNavigator';
 
 const checkTheme = (theme) => {
   if (!theme.colors) {
@@ -37,7 +38,7 @@ const App = () => {
     <PreferencesContext.Provider value={{ toggleTheme, isDarkTheme }}>
       <PaperProvider theme={theme}>
         <NavigationContainer theme={theme}>
-          <DrawerNavigator />
+          <StackNavigator/>
         </NavigationContainer>
       </PaperProvider>
     </PreferencesContext.Provider>

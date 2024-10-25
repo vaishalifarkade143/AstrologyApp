@@ -7,6 +7,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import { Keyboard } from 'react-native';
 import NoticeScreen from '../screens/NoticeScreen';
 import FeesScreen from '../screens/FeesScreen';
+import HomeScreen from '../screens/HomeScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -48,7 +49,7 @@ const BottomTabs = () => {
         tabBarInactiveTintColor: 'gray',
       })}
     >
-      <Tab.Screen name="Home" component={StackNavigator} />
+      <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Attendance" component={AttendanceScreen} />
       <Tab.Screen name="Fees" component={FeesScreen} />
       <Tab.Screen name="Notice" component={NoticeScreen} />

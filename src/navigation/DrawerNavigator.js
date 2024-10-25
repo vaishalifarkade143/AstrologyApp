@@ -17,8 +17,8 @@ const DrawerNavigator = () => {
       drawerContent={(props) => <DrawerContent {...props} />}>
       <Drawer.Screen name="Home" component={BottomTabs} />
       <Drawer.Screen name="Profile" component={ProfileScreen} />
-      <Drawer.Screen name="Login" component={LoginScreen} />
-      <Drawer.Screen name="Register" component={RegistrationScreen} />
+      {/* <Drawer.Screen name="Login" component={LoginScreen} />
+      <Drawer.Screen name="Register" component={RegistrationScreen} /> */}
     </Drawer.Navigator>
   );
 };
