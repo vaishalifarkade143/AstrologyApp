@@ -34,6 +34,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 7,
     borderRadius: 20,
     borderColor:colors.coloruse,
+    marginBottom:15,
     borderWidth:1,
     elevation: 4, // Adds a subtle shadow effect for Android
   },

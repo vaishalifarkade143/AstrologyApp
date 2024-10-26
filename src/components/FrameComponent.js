@@ -205,9 +205,11 @@ const styles = StyleSheet.create({
   container: {
     padding: 10,
     borderRadius: 20,
-    elevation: 4,
+    elevation: 30,
     backgroundColor: colors.background,
     marginHorizontal: 7,
+    // borderWidth:0.5,
+    // borderColor:colors.placeholder,
   },
   iconContainer: {
     flexDirection: 'row',

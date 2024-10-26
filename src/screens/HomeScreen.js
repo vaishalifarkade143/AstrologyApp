@@ -29,7 +29,7 @@ const HomeScreen = ({ navigation }) => {
         onClickRightIcon={handleSignOut}
       />
 
-      <View style={[styles.roundedContainer, { backgroundColor: theme.colors.card }]}>
+      <View style={[styles.roundedContainer, { backgroundColor: theme.colors.background }]}>
         {/* Main content can go here */}
         <ProfileComponent/>
         
@@ -53,7 +53,7 @@ const HomeScreen = ({ navigation }) => {
         </Modal>
       </View>
       <View style={{backgroundColor:colors.coloruse}}>
-        <Text style={{textAlign:"center"}}>Educron</Text>
+        <Text style={styles.companyLabel}>Educron</Text>
       </View>
     </View>
   );
@@ -93,7 +93,12 @@ const styles = StyleSheet.create({
   },
   companyLabel:{
     textAlign:'center',
-    color:'#fff'
+    color: colors.background,
+    fontFamily:"Roboto",
+    fontWeight:"bold",
+    fontSize:12,
+    paddingTop:3,
+    paddingBottom:3
   }
   
 });

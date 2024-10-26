@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 import { Button, useTheme ,Card} from 'react-native-paper';
+import colors from '../styles/colors';
 
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = React.useState('');
@@ -35,13 +36,10 @@ const LoginScreen = ({ navigation }) => {
         secureTextEntry
       />
       <Button mode="contained" onPress={handleLogin} 
-      style={[styles.button, { backgroundColor: theme.colors.primary }]}>
+      style={[styles.button, { backgroundColor: colors.coloruse }]}>
         Login
       </Button>
-{/* 
-      <TouchableOpacity onPress={() => navigation.navigate('Register')}>
-        <Text style={[styles.registerText, { color: theme.colors.primary }]}>Don't have an account? Register</Text>
-      </TouchableOpacity> */}
+
       </Card.Content>
       </Card>
     </View>
