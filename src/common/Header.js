@@ -32,7 +32,7 @@ export default Header;
 const styles = StyleSheet.create({
     header: {
         height: 60,
-        backgroundColor: '#fff',//,
+        // backgroundColor: '#B9E5E8',//,
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',

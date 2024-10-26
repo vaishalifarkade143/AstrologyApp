@@ -1,145 +1,101 @@
 
-import React from 'react';
-import { View, Text, StyleSheet, Dimensions, Image, FlatList, KeyboardAvoidingView } from 'react-native';
-import { Button, useTheme } from 'react-native-paper';
-import CustomAppbar from '../components/CustomAppbar';
-import Carousel from 'react-native-reanimated-carousel';
-
-const { width: viewportWidth } = Dimensions.get('window');
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import React, { useState } from 'react';
+import { useTheme } from 'react-native-paper';
+import Header from '../common/Header';
+import colors from '../styles/colors';
+import Modal from "react-native-modal";
+import Icon from 'react-native-vector-icons/FontAwesome';
+import FrameComponent from '../components/FrameComponent';
+import ProfileComponent from '../components/ProfilComponent';
+import ModalComponent from '../components/ModalComponent';
 
 const HomeScreen = ({ navigation }) => {
   const theme = useTheme();
+  const [visible, setVisible] = useState(false);
 
-  const data = [
-    {
-      title: "Aenean leo",
-      body: "Ut tincidunt tincidunt erat. Sed cursus turpis vitae tortor. Quisque malesuada placerat nisl. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.",
-      imgUrl: "https://picsum.photos/id/11/200/300",
-    },
-    {
-      title: "In turpis",
-      body: "Aenean ut eros et nisl sagittis vestibulum. Donec posuere vulputate arcu. Proin faucibus arcu quis ante. Curabitur at lacus ac velit ornare lobortis.",
-      imgUrl: "https://picsum.photos/id/10/200/300",
-    },
-    {
-      title: "Lorem Ipsum",
-      body: "Phasellus ullamcorper ipsum rutrum nunc. Nullam quis ante. Etiam ultricies nisi vel augue. Aenean tellus metus, bibendum sed, posuere ac, mattis non, nunc.",
-      imgUrl: "https://picsum.photos/id/12/200/300",
-    },
-  ];
-
-  const flatListData = [
-    { id: '1', name: 'Item 1', imgUrl: 'https://picsum.photos/id/13/200/200' },
-    { id: '2', name: 'Item 2', imgUrl: 'https://picsum.photos/id/14/200/200' },
-    { id: '3', name: 'Item 3', imgUrl: 'https://picsum.photos/id/15/200/200' },
-    { id: '4', name: 'Item 4', imgUrl: 'https://picsum.photos/id/16/200/200' },
-    { id: '5', name: 'Item 5', imgUrl: 'https://picsum.photos/id/17/200/200' },
-    { id: '6', name: 'Item 6', imgUrl: 'https://picsum.photos/id/18/200/200' },
-    { id: '7', name: 'Item 7', imgUrl: 'https://picsum.photos/id/19/200/200' },
-    { id: '8', name: 'Item 8', imgUrl: 'https://picsum.photos/id/20/200/200' },
-    { id: '9', name: 'Item 9', imgUrl: 'https://picsum.photos/id/21/200/200' },
-    { id: '10', name: 'Item 10', imgUrl: 'https://picsum.photos/id/22/200/200' },
-  ];
-
-  const renderItem = ({ item }) => (
-    <View style={[styles.itemContainer, { backgroundColor: theme.colors.surface }]}>
-      <Image source={{ uri: item.imgUrl }} style={styles.itemImg} />
-      <Text style={[styles.itemTitle, { color: theme.colors.text }]}>{item.title}</Text>
-      <Text style={[styles.itemBody, { color: theme.colors.text }]}>{item.body}</Text>
-    </View>
-  );
-
-  const renderFlatListItem = ({ item }) => (
-    <View style={[styles.flatListItemContainer, { backgroundColor: theme.colors.surface }]}>
-      <Image source={{ uri: item.imgUrl }} style={styles.flatListItemImg} />
-      <Text style={[styles.flatListItemText, { color: theme.colors.text }]}>{item.name}</Text>
-    </View>
-  );
+  const handleSignOut = () => {
+    console.log('Signing out...');
+    navigation.navigate('Login');
+  };
 
   return (
-    <>
-      <CustomAppbar navigation={navigation} title="Home" subtitle="Subtitle" />
-      <KeyboardAvoidingView
-        style={[styles.container, { backgroundColor: theme.colors.background }]}
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      >
+    <View style={[styles.container, { backgroundColor: colors.coloruse }]}>
+      {/* Header */}
+      <Header
+        leftIcon={require('../images/era.png')}
+        rightIcon={require('../images/logout.png')}
+        onClickLeftIcon={() => console.log('ERA logo clicked')}
+        onClickRightIcon={handleSignOut}
+      />
+
+      <View style={[styles.roundedContainer, { backgroundColor: theme.colors.card }]}>
+        {/* Main content can go here */}
+        <ProfileComponent/>
         
-        <Carousel
-          loop
-          width={viewportWidth}
-          height={400}
-          autoPlay={true}
-          data={data}
-          scrollAnimationDuration={1000}
-          renderItem={renderItem}
-        />
-        <FlatList
-          data={flatListData}
-          showsHorizontalScrollIndicator={false}
-          renderItem={renderFlatListItem}
-          horizontal={true}
-          keyExtractor={(item) => item.id}
-          style={styles.flatList}
-        />
-      </KeyboardAvoidingView>
-    </>
+       <FrameComponent/>
+
+        {/* Floating Action Button */}
+        <TouchableOpacity style={styles.addButton} onPress={() => setVisible(true)}>
+          <Text style={styles.addButtonText}>+</Text>
+        </TouchableOpacity>
+
+        {/* Modal Component */}
+        <Modal
+          isVisible={visible}
+          onBackButtonPress={() => setVisible(false)} // Dismiss modal on back button press
+          onBackdropPress={() => setVisible(false)} // Dismiss modal on backdrop press
+          onSwipeComplete={() => setVisible(false)} // Dismiss modal on swipe down
+          swipeDirection="down" // Enables swipe down to dismiss
+          style={styles.modal} // Use this style to position modal
+        >
+          <ModalComponent/>
+        </Modal>
+      </View>
+      <View style={{backgroundColor:colors.coloruse}}>
+        <Text style={{textAlign:"center"}}>Educron</Text>
+      </View>
+    </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 10,
   },
-  itemContainer: {
-    borderRadius: 8,
-    padding: 20,
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: 350,
-    marginVertical: -5,
-    marginHorizontal: 5,
-  },
-  itemImg: {
-    width: 150,
-    height: 150,
-    borderRadius: 75,
-    marginBottom: 10,
-  },
-  itemTitle: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    marginBottom: 5,
-  },
-  itemBody: {
-    fontSize: 15,
-    textAlign: 'center',
-  },
-  flatList: {
-    marginTop: 350,
-    position: 'absolute'
-  },
-  flatListItemContainer: {
+  roundedContainer: {
+    flex: 1,
+    marginTop: 10,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
     padding: 15,
-    marginVertical: 5,
-    marginHorizontal: 10,
-    borderRadius: 5,
-    alignItems: 'center',
+    elevation: 5,
+  },
+  addButton: {
+    position: 'absolute', // Absolute positioning
+    bottom: 20, // Distance from the bottom
+    right: 20, // Distance from the right
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    backgroundColor: colors.coloruse,
     justifyContent: 'center',
-    flexDirection: 'row',
-    height: 100,
+    alignItems: 'center',
+    elevation: 5, // Add shadow for better visibility
   },
-  flatListItemImg: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    marginRight: 10,
+  addButtonText: {
+    fontSize: 30,
+    color: '#fff',
   },
-  flatListItemText: {
-    fontSize: 18,
+  modal: {
+    margin: 0, // Remove default margins
+    justifyContent: 'flex-end', // Position modal at the bottom
   },
+  companyLabel:{
+    textAlign:'center',
+    color:'#fff'
+  }
+  
 });
 
 export default HomeScreen;
-
-
