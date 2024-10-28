@@ -207,7 +207,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     elevation: 30,
     backgroundColor: colors.background,
-    marginHorizontal: 7,
+    marginHorizontal: -1,
     // borderWidth:0.5,
     // borderColor:colors.placeholder,
   },

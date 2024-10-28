@@ -31,7 +31,7 @@ const ProfileComponent = () => {
 const styles = StyleSheet.create({
   card: {
     backgroundColor:colors.backgroundlight,
-    marginHorizontal: 7,
+    marginHorizontal: -1,
     borderRadius: 20,
     borderColor:colors.coloruse,
     marginBottom:15,

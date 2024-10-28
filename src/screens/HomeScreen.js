@@ -39,17 +39,31 @@ const HomeScreen = ({ navigation }) => {
         {/* Main content can go here */}
         <ProfileComponent />
         <FrameComponent />
-      {/* Segmented Button */}
-      <SegmentedButtons
+        {/* Segmented Button */}
+
+        <SegmentedButtons
           value={selectedOption}
           onValueChange={setSelectedOption}
           buttons={[
-            { value: 'option1', label: 'Option 1' },
-            { value: 'option2', label: 'Option 2' },
-            { value: 'option3', label: 'Option 3' },
+            {
+              value: 'option1',
+              label: 'Option 1',
+              style: selectedOption === 'option1' ? styles.selectedButton : styles.button,
+            },
+            {
+              value: 'option2',
+              label: 'Option 2',
+              style: selectedOption === 'option2' ? styles.selectedButton : styles.button,
+            },
+            {
+              value: 'option3',
+              label: 'Option 3',
+              style: selectedOption === 'option3' ? styles.selectedButton : styles.button,
+            },
           ]}
           style={styles.segmentedButtons}
         />
+        <View style={styles.dividerView}></View>
 
         {/* Floating Action Button */}
         <TouchableOpacity style={styles.addButton} onPress={() => setVisible(true)}>
@@ -117,9 +131,33 @@ const styles = StyleSheet.create({
     paddingBottom: 3
   },
   segmentedButtons: {
-    marginVertical: 20,
+    marginVertical: 10,
+    backgroundColor: '#f0f0f0',
+    borderRadius: 10,
+    borderColor: 'none',
+    borderWidth: 0,
   },
+  button: {
+    padding: 5,
+    borderRadius: 8,
+    borderWidth: 0,
+  },
+  selectedButton: {
+    padding: 5,
+    borderRadius: 8,
+    borderWidth: 0,
+    backgroundColor: colors.backgroundlight, // Color for selected button
+    color: 'white', // Text color for selected button
+  },
+  dividerView: {
+    marginTop: -15,
+    height: 3,
+    backgroundColor: colors.backgroundlight,
+    alignSelf: 'center',
+    marginBottom: 10,
+    width: 360,
 
+  },
 });
 
 export default HomeScreen;
