@@ -1,7 +1,7 @@
 
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import React, { useState } from 'react';
-import { useTheme } from 'react-native-paper';
+import React, { useState, useContext } from 'react';
+import { SegmentedButtons, useTheme } from 'react-native-paper';
 import Header from '../common/Header';
 import colors from '../styles/colors';
 import Modal from "react-native-modal";
@@ -10,9 +10,13 @@ import FrameComponent from '../components/FrameComponent';
 import ProfileComponent from '../components/ProfilComponent';
 import ModalComponent from '../components/ModalComponent';
 
+import { PreferencesContext } from '../context/PreferencesContext';
+
+
 const HomeScreen = ({ navigation }) => {
-  const theme = useTheme();
+  const { theme } = useContext(PreferencesContext);
   const [visible, setVisible] = useState(false);
+  const [selectedOption, setSelectedOption] = useState('option1');
 
   const handleSignOut = () => {
     console.log('Signing out...');
@@ -20,7 +24,8 @@ const HomeScreen = ({ navigation }) => {
   };
 
   return (
-    <View style={[styles.container, { backgroundColor: colors.coloruse }]}>
+    <View style={[styles.container,
+    { backgroundColor: colors.coloruse }]}>
       {/* Header */}
       <Header
         leftIcon={require('../images/era.png')}
@@ -29,11 +34,22 @@ const HomeScreen = ({ navigation }) => {
         onClickRightIcon={handleSignOut}
       />
 
-      <View style={[styles.roundedContainer, { backgroundColor: theme.colors.background }]}>
+      <View style={[styles.roundedContainer,
+      { backgroundColor: theme.colors.background }]}>
         {/* Main content can go here */}
-        <ProfileComponent/>
-        
-       <FrameComponent/>
+        <ProfileComponent />
+        <FrameComponent />
+      {/* Segmented Button */}
+      <SegmentedButtons
+          value={selectedOption}
+          onValueChange={setSelectedOption}
+          buttons={[
+            { value: 'option1', label: 'Option 1' },
+            { value: 'option2', label: 'Option 2' },
+            { value: 'option3', label: 'Option 3' },
+          ]}
+          style={styles.segmentedButtons}
+        />
 
         {/* Floating Action Button */}
         <TouchableOpacity style={styles.addButton} onPress={() => setVisible(true)}>
@@ -49,10 +65,10 @@ const HomeScreen = ({ navigation }) => {
           swipeDirection="down" // Enables swipe down to dismiss
           style={styles.modal} // Use this style to position modal
         >
-          <ModalComponent/>
+          <ModalComponent />
         </Modal>
       </View>
-      <View style={{backgroundColor:colors.coloruse}}>
+      <View style={{ backgroundColor: colors.coloruse }}>
         <Text style={styles.companyLabel}>Educron</Text>
       </View>
     </View>
@@ -91,16 +107,19 @@ const styles = StyleSheet.create({
     margin: 0, // Remove default margins
     justifyContent: 'flex-end', // Position modal at the bottom
   },
-  companyLabel:{
-    textAlign:'center',
+  companyLabel: {
+    textAlign: 'center',
     color: colors.background,
-    fontFamily:"Roboto",
-    fontWeight:"bold",
-    fontSize:12,
-    paddingTop:3,
-    paddingBottom:3
-  }
-  
+    fontFamily: "Roboto",
+    fontWeight: "bold",
+    fontSize: 12,
+    paddingTop: 3,
+    paddingBottom: 3
+  },
+  segmentedButtons: {
+    marginVertical: 20,
+  },
+
 });
 
 export default HomeScreen;

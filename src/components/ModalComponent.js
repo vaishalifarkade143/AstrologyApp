@@ -226,7 +226,7 @@ import React, { useContext } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { Button, Switch, TouchableRipple, useTheme } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { PreferencesContext } from './PreferencesContext';
+import { PreferencesContext } from '../context/PreferencesContext';
 import colors from '../styles/colors'; // Ensure colors.js is correctly imported
 
 const ModalComponent = () => {
@@ -269,36 +269,42 @@ const ModalComponent = () => {
                 </TouchableOpacity>
             </View>
 
+            <View style={styles.dividerView}></View>
+
             {/* Toggle Theme Section */}
             <View style={styles.iconContainer}>
-                <View style={{marginRight:-20}}>
-                    <TouchableRipple onPress={toggleTheme} rippleColor="rgba(0, 0, 0, .32)"
+                <View style={{marginLeft:10}}>
+                    <TouchableRipple onPress={toggleTheme} 
+                    rippleColor="rgba(0, 0, 0, .32)"
                      style={styles.iconButton}>
-                        <View style={[styles.iconBackground1, { backgroundColor: colors.coloruse }]}>
-                            <Switch value={isDarkTheme} onValueChange={toggleTheme} />
+                        <View style={[styles.iconBackground1,
+                             { backgroundColor: colors.coloruse }]}>
+                            <Switch value={isDarkTheme}
+                             onValueChange={toggleTheme}
+                             color={theme.colors.primary} />
                         </View>
                     </TouchableRipple>
-                    <Text style={styles.iconLabel}>Dark theme</Text>
+                    {/* <Text style={[styles.iconLabel, { color: theme.colors.text }]}>Dark theme</Text> */}
                 </View>
                 <TouchableOpacity style={styles.iconButton}>
                     <View style={[styles.iconBackground, { backgroundColor: colors.coloruse }]}>
                         <Icon name="bell" size={24} color="#fff" />
                     </View>
-                    <Text style={[styles.iconLabel, { color: theme.colors.text }]}>Notification</Text>
+                    {/* <Text style={[styles.iconLabel, { color: theme.colors.text }]}>Notification</Text> */}
                 </TouchableOpacity>
 
                 <TouchableOpacity style={styles.iconButton}>
                     <View style={[styles.iconBackground, { backgroundColor: colors.coloruse }]}>
                         <Icon name="cog" size={24} color="#fff" />
                     </View>
-                    <Text style={[styles.iconLabel, { color: theme.colors.text }]}>Settings</Text>
+                    {/* <Text style={[styles.iconLabel, { color: theme.colors.text }]}>Settings</Text> */}
                 </TouchableOpacity>
 
                 <TouchableOpacity style={styles.iconButton}>
                     <View style={[styles.iconBackground, { backgroundColor: colors.coloruse }]}>
                         <Icon name="check-square" size={24} color="#fff" />
                     </View>
-                    <Text style={[styles.iconLabel, { color: theme.colors.text }]}>Attendance</Text>
+                    {/* <Text style={[styles.iconLabel, { color: theme.colors.text }]}>Attendance</Text> */}
                 </TouchableOpacity>
 
             </View>
@@ -345,6 +351,16 @@ const styles = StyleSheet.create({
         marginLeft:-13,
         
     },
+    dividerView: {
+        marginTop: -10,
+        height: 1.5,
+        backgroundColor: colors.placeholder,
+        alignSelf: 'center',
+        marginBottom:10,
+        width: 330,
+         marginLeft: 30,
+         marginRight:30
+      },
 });
 
 export default ModalComponent;
