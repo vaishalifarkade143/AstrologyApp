@@ -1,18 +1,54 @@
-import React from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
+import React,{useState} from 'react';
+import { View, Text, StyleSheet, TextInput,Alert,TouchableOpacity  } from 'react-native';
 import { Button, useTheme ,Card} from 'react-native-paper';
 import colors from '../styles/colors';
+import { CommonActions } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'; 
 
 const LoginScreen = ({ navigation }) => {
-  const [email, setEmail] = React.useState('');
+  const [username, setUsername] = React.useState('');
   const [password, setPassword] = React.useState('');
+  const [passwordVisible, setPasswordVisible] = useState(false);
   const theme = useTheme();
 
-  const handleLogin = () => {
-    // Add login logic here
-    navigation.navigate('Home');
-    console.log('Login button pressed');
+  const handleLogin = async () => {
+    try {
+      // Prepare the body as a URL-encoded string
+      const formBody = new URLSearchParams();
+      formBody.append('username', username);
+      formBody.append('password', password);
+  
+      const response = await fetch('https://acadicronbackend.educron.com/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded', // Set content type for URL-encoded form data
+        },
+        body: formBody.toString(), // Convert to string format for fetch
+      });
+  
+      const data = await response.json();
+      console.log('Response data:', data);
+
+      if (data.success) {
+        await AsyncStorage.setItem('isLoggedIn', 'true'); // Set as 'true' or save a token if available
+        // Navigate to the Home screen if authenticated successfully
+        navigation.dispatch(
+          CommonActions.reset({
+            index: 0,
+            routes: [{ name: 'Home' }],
+          })
+        )
+      } else {
+        // Show an alert with the message from the response
+        Alert.alert('Login Failed', data.message || 'Invalid credentials');
+      }
+    } catch (error) {
+      console.error('Error logging in:', error);
+      Alert.alert('Login Error', 'An error occurred. Please try again.');
+    }
   };
+  
 
   return (
     <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
@@ -21,20 +57,37 @@ const LoginScreen = ({ navigation }) => {
       <Text style={[styles.title, { color: theme.colors.text }]}>Login</Text>
       <TextInput
         style={[styles.input, { backgroundColor: theme.colors.surface, color: theme.colors.text }]}
-        placeholder="Email"
+        placeholder="Username"
         placeholderTextColor={theme.colors.text} // Set placeholder color
-        value={email}
-        onChangeText={setEmail}
-        keyboardType="email-address"
+        value={username}
+        onChangeText={setUsername}
+        keyboardType="name-phone-pad"
       />
-      <TextInput
+      {/* <TextInput
         style={[styles.input, { backgroundColor: theme.colors.surface, color: theme.colors.text }]}
         placeholder="Password"
         placeholderTextColor={theme.colors.text} // Set placeholder color
         value={password}
         onChangeText={setPassword}
         secureTextEntry
-      />
+      /> */}
+      <View style={styles.passwordContainer}>
+            <TextInput
+              style={[styles.input1, { flex: 1, backgroundColor: theme.colors.surface, color: theme.colors.text }]}
+              placeholder="Password"
+              placeholderTextColor={theme.colors.text}
+              value={password}
+              onChangeText={setPassword}
+              secureTextEntry={!passwordVisible}
+            />
+            <TouchableOpacity onPress={() => setPasswordVisible(!passwordVisible)}>
+              <Icon
+                name={passwordVisible ? 'eye-off' : 'eye'}
+                size={24}
+                color={theme.colors.text}
+              />
+            </TouchableOpacity>
+          </View>
       <Button mode="contained" onPress={handleLogin} 
       style={[styles.button, { backgroundColor: colors.coloruse }]}>
         Login
@@ -64,6 +117,23 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     borderRadius: 4,
   },
+  input1: {
+    // borderWidth: 1,
+    borderColor: '#ccc',
+    padding: 12,
+    // marginBottom: 16,
+    borderRadius: 4,
+    // paddingRight:5
+  },
+  passwordContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 4,
+    marginBottom: 16,
+    
+  },
   button: {
     marginBottom: 16,
   },
@@ -83,113 +153,3 @@ export default LoginScreen;
 
 
 
-
-
-
-
-// import React from 'react';
-// import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
-// import { Button, useTheme, Card } from 'react-native-paper';
-
-// const LoginScreen = ({ navigation }) => {
-//   const [email, setEmail] = React.useState('');
-//   const [password, setPassword] = React.useState('');
-//   const theme = useTheme();
-
-//   const handleLogin = () => {
-//     // Add login logic here
-//     console.log('Login button pressed');
-//   };
-
-//   return (
-//     <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
-//       <Card style={styles.card}>
-//         <Card.Content>
-//           <Text style={[styles.title, { color: theme.colors.text }]}>Login</Text>
-//           <TextInput
-//             style={[
-//               styles.input,
-//               {
-//                 backgroundColor: theme.colors.surface,
-//                 color: theme.colors.text,
-//                 borderColor: theme.colors.placeholder,
-//               },
-//             ]}
-//             placeholder="Email"
-//             placeholderTextColor={theme.colors.placeholder}
-//             value={email}
-//             onChangeText={setEmail}
-//             keyboardType="email-address"
-//           />
-//           <TextInput
-//             style={[
-//               styles.input,
-//               {
-//                 backgroundColor: theme.colors.surface,
-//                 color: theme.colors.text,
-//                 borderColor: theme.colors.placeholder,
-//               },
-//             ]}
-//             placeholder="Password"
-//             placeholderTextColor={theme.colors.placeholder}
-//             value={password}
-//             onChangeText={setPassword}
-//             secureTextEntry
-//           />
-//           <Button
-//             mode="contained"
-//             onPress={handleLogin}
-//             style={[styles.button, { backgroundColor: theme.colors.primary }]}
-//             labelStyle={{ color: theme.colors.onPrimary }}
-//           >
-//             Login
-//           </Button>
-
-//           <TouchableOpacity onPress={() => navigation.navigate('Register')}>
-//             <Text style={[styles.registerText, { color: theme.colors.primary }]}>
-//               Don't have an account? Register
-//             </Text>
-//           </TouchableOpacity>
-//         </Card.Content>
-//       </Card>
-//     </View>
-//   );
-// };
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     justifyContent: 'center',
-//     padding: 16,
-//   },
-//   card: {
-//     borderRadius: 8,
-//     elevation: 4,
-//   },
-//   title: {
-//     fontSize: 32,
-//     fontWeight: 'bold',
-//     textAlign: 'center',
-//     marginBottom: 32,
-//   },
-//   input: {
-//     borderWidth: 1,
-//     padding: 12,
-//     marginBottom: 16,
-//     borderRadius: 8,
-//     fontSize: 16,
-//   },
-//   button: {
-//     marginVertical: 16,
-//     paddingVertical: 10,
-//     borderRadius: 8,
-//     elevation: 2,
-//   },
-//   registerText: {
-//     textAlign: 'center',
-//     marginTop: 16,
-//     fontSize: 16,
-//   },
-// });
-
-// export default LoginScreen;

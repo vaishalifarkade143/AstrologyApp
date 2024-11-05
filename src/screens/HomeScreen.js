@@ -1,26 +1,50 @@
-
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import React, { useState, useContext } from 'react';
-import { SegmentedButtons, useTheme } from 'react-native-paper';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Animated, Dimensions } from 'react-native';
+import React, { useState, useContext, useRef } from 'react';
 import Header from '../common/Header';
 import colors from '../styles/colors';
 import Modal from "react-native-modal";
-import Icon from 'react-native-vector-icons/FontAwesome';
 import FrameComponent from '../components/FrameComponent';
 import ProfileComponent from '../components/ProfilComponent';
 import ModalComponent from '../components/ModalComponent';
 
 import { PreferencesContext } from '../context/PreferencesContext';
 
-
+const { width } = Dimensions.get("window");
 const HomeScreen = ({ navigation }) => {
   const { theme } = useContext(PreferencesContext);
   const [visible, setVisible] = useState(false);
   const [selectedOption, setSelectedOption] = useState('option1');
+  const [buttonWidth, setButtonWidth] = useState(width / 4);
+  const translateX = useRef(new Animated.Value(0)).current;
 
   const handleSignOut = () => {
     console.log('Signing out...');
     navigation.navigate('Login');
+  };
+
+  const handleButtonPress = (option, index) => {
+    setSelectedOption(option);
+    Animated.spring(translateX, {
+      toValue: index * buttonWidth,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  const renderContent = () => {
+    switch (selectedOption) {
+      case 'option1':
+        return <Text>Content for Option 1</Text>;
+      case 'option2':
+        return <Text>Content for Option 2</Text>;
+      case 'option3':
+        return <Text>Content for Option 3</Text>;
+      case 'option4':
+        return <Text>Content for Option 4</Text>;
+      case 'option5':
+        return <Text>Content for Option 5</Text>;
+      default:
+        return null;
+    }
   };
 
   return (
@@ -41,30 +65,39 @@ const HomeScreen = ({ navigation }) => {
         <FrameComponent />
         {/* Segmented Button */}
 
-        <SegmentedButtons
-          value={selectedOption}
-          onValueChange={setSelectedOption}
-          buttons={[
+        {/* Scrollable Segmented Buttons */}
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.scrollContentContainer}
+          onLayout={(event) => setButtonWidth(event.nativeEvent.layout.width / 4)}
+        >
+          {['option1', 'option2', 'option3', 'option4', 'option5'].map((option, index) => (
+            <TouchableOpacity
+              key={option}
+              style={[styles.button, selectedOption === option && styles.selectedButton]}
+              onPress={() => handleButtonPress(option, index)}
+            >
+              <Text style={selectedOption === option ? styles.selectedText : styles.buttonText}>
+                {`Option ${index + 1}`}
+              </Text>
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
+
+        {/* Animated Divider */}
+        <Animated.View
+          style={[
+            styles.divider,
             {
-              value: 'option1',
-              label: 'Option 1',
-              style: selectedOption === 'option1' ? styles.selectedButton : styles.button,
-            },
-            {
-              value: 'option2',
-              label: 'Option 2',
-              style: selectedOption === 'option2' ? styles.selectedButton : styles.button,
-            },
-            {
-              value: 'option3',
-              label: 'Option 3',
-              style: selectedOption === 'option3' ? styles.selectedButton : styles.button,
+              width: buttonWidth,
+              transform: [{ translateX }],
             },
           ]}
-          style={styles.segmentedButtons}
         />
-        <View style={styles.dividerView}></View>
 
+        {/* Render content based on selected option */}
+        <View style={styles.contentContainer}>{renderContent()}</View>
         {/* Floating Action Button */}
         <TouchableOpacity style={styles.addButton} onPress={() => setVisible(true)}>
           <Text style={styles.addButtonText}>+</Text>
@@ -130,33 +163,41 @@ const styles = StyleSheet.create({
     paddingTop: 3,
     paddingBottom: 3
   },
-  segmentedButtons: {
-    marginVertical: 10,
-    backgroundColor: '#f0f0f0',
-    borderRadius: 10,
-    borderColor: 'none',
-    borderWidth: 0,
+  scrollContentContainer: {
+    flexDirection: 'row',
+    marginTop: 10,
   },
   button: {
-    padding: 5,
-    borderRadius: 8,
-    borderWidth: 0,
+    height: 55,
+    paddingVertical: 15,
+    paddingHorizontal: 15,
+    borderRadius: 15,
   },
   selectedButton: {
-    padding: 5,
-    borderRadius: 8,
-    borderWidth: 0,
-    backgroundColor: colors.backgroundlight, // Color for selected button
-    color: 'white', // Text color for selected button
+    backgroundColor: colors.backgroundlight,
   },
-  dividerView: {
-    marginTop: -15,
+  buttonText: {
+    fontFamily: "Roboto",
+    fontWeight: "bold",
+    fontSize: 13,
+    color: '#000',
+    textAlign: 'center'
+  },
+  selectedText: {
+    fontFamily: "Roboto",
+    fontWeight: "bold",
+    fontSize: 13,
+    color: colors.coloruse,
+    fontWeight: 'bold',
+  },
+  divider: {
     height: 3,
     backgroundColor: colors.backgroundlight,
-    alignSelf: 'center',
-    marginBottom: 10,
-    width: 360,
-
+    position: 'absolute',
+    bottom: 0,
+  },
+  contentContainer: {
+    marginTop: 20,
   },
 });
 
