@@ -19,7 +19,6 @@ const SplashScreen = ({ navigation }) => {
         style={styles.logo}
         resizeMode="contain" // Makes the image fit within the container
       />
-      {/* <Text style={styles.text}>SplashScreen</Text> */}
     </View>
   );
 };
