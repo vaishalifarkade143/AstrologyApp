@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Animated, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Animated, Dimensions,StatusBar  } from 'react-native';
 import React, { useState, useContext, useRef } from 'react';
 import Header from '../common/Header';
 import colors from '../styles/colors';
@@ -16,12 +16,10 @@ const HomeScreen = ({ navigation }) => {
   const [selectedOption, setSelectedOption] = useState('option1');
   const [buttonWidth, setButtonWidth] = useState(width / 4);
   const translateX = useRef(new Animated.Value(0)).current;
-
   const handleSignOut = () => {
     console.log('Signing out...');
     navigation.navigate('Login');
   };
-
   const handleButtonPress = (option, index) => {
     setSelectedOption(option);
     Animated.spring(translateX, {
@@ -29,7 +27,6 @@ const HomeScreen = ({ navigation }) => {
       useNativeDriver: true,
     }).start();
   };
-
   const renderContent = () => {
     switch (selectedOption) {
       case 'option1':
@@ -46,26 +43,20 @@ const HomeScreen = ({ navigation }) => {
         return null;
     }
   };
-
   return (
     <View style={[styles.container,
     { backgroundColor: colors.coloruse }]}>
-      {/* Header */}
+            <StatusBar  backgroundColor={colors.coloruse} barStyle="light-content" />
       <Header
         leftIcon={require('../images/era.png')}
         rightIcon={require('../images/logout.png')}
         onClickLeftIcon={() => console.log('ERA logo clicked')}
         onClickRightIcon={handleSignOut}
       />
-
       <View style={[styles.roundedContainer,
       { backgroundColor: theme.colors.background }]}>
-        {/* Main content can go here */}
         <ProfileComponent />
         <FrameComponent />
-        {/* Segmented Button */}
-
-        {/* Scrollable Segmented Buttons */}
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
@@ -84,8 +75,6 @@ const HomeScreen = ({ navigation }) => {
             </TouchableOpacity>
           ))}
         </ScrollView>
-
-        {/* Animated Divider */}
         <Animated.View
           style={[
             styles.divider,
@@ -95,15 +84,14 @@ const HomeScreen = ({ navigation }) => {
             },
           ]}
         />
-
-        {/* Render content based on selected option */}
-        <View style={styles.contentContainer}>{renderContent()}</View>
-        {/* Floating Action Button */}
+        <View style={styles.contentContainer}>
+          <Text> 
+            {renderContent()}
+            </Text>
+         </View>
         <TouchableOpacity style={styles.addButton} onPress={() => setVisible(true)}>
           <Text style={styles.addButtonText}>+</Text>
         </TouchableOpacity>
-
-        {/* Modal Component */}
         <Modal
           isVisible={visible}
           onBackButtonPress={() => setVisible(false)} // Dismiss modal on back button press

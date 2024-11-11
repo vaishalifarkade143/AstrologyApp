@@ -1,155 +1,67 @@
-// import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
-// import React from 'react'
 
-// import colors from '../styles/colors';
-// import Icon from 'react-native-vector-icons/FontAwesome';
-
-// const FrameComponent = () => {
-//     return (
-//         <View style={styles.container}>
-//             <View style={styles.iconContainer}>
-//                 <TouchableOpacity style={styles.iconButton}>
-//                     <View style={styles.iconBackground}>
-//                         <Icon name="home" size={24} color="#fff" />
-//                     </View>
-//                     <Text style={styles.iconLabel}>Home</Text>
-//                 </TouchableOpacity>
-
-//                 <TouchableOpacity style={styles.iconButton}>
-//                     <View style={styles.iconBackground}>
-//                         <Icon name="bell" size={24} color="#fff" />
-//                     </View>
-//                     <Text style={styles.iconLabel}>Notification</Text>
-//                 </TouchableOpacity>
-
-//                 <TouchableOpacity style={styles.iconButton}>
-//                     <View style={styles.iconBackground}>
-//                         <Icon name="cog" size={24} color="#fff" />
-//                     </View>
-//                     <Text style={styles.iconLabel}>Settings</Text>
-//                 </TouchableOpacity>
-
-//                 <TouchableOpacity style={styles.iconButton}>
-//                     <View style={styles.iconBackground}>
-//                         <Icon name="check-square" size={24} color="#fff" />
-//                     </View>
-//                     <Text style={styles.iconLabel}>Attendance</Text>
-//                 </TouchableOpacity>
-//             </View>
-//             <View style={styles.iconContainer}>
-//                 <TouchableOpacity style={styles.iconButton}>
-//                     <View style={styles.iconBackground}>
-//                         <Icon name="home" size={24} color="#fff" />
-//                     </View>
-//                     <Text style={styles.iconLabel}>Home</Text>
-//                 </TouchableOpacity>
-
-//                 <TouchableOpacity style={styles.iconButton}>
-//                     <View style={styles.iconBackground}>
-//                         <Icon name="bell" size={24} color="#fff" />
-//                     </View>
-//                     <Text style={styles.iconLabel}>Notification</Text>
-//                 </TouchableOpacity>
-
-//                 <TouchableOpacity style={styles.iconButton}>
-//                     <View style={styles.iconBackground}>
-//                         <Icon name="cog" size={24} color="#fff" />
-//                     </View>
-//                     <Text style={styles.iconLabel}>Settings</Text>
-//                 </TouchableOpacity>
-
-//                 <TouchableOpacity style={styles.iconButton}>
-//                     <View style={styles.iconBackground}>
-//                         <Icon name="check-square" size={24} color="#fff" />
-//                     </View>
-//                     <Text style={styles.iconLabel}>Attendance</Text>
-//                 </TouchableOpacity>
-//             </View>
-//         </View>
-//     )
-// }
-// const styles = StyleSheet.create({
-//     container: {
-//         padding: 8,  // Outer padding
-//         borderRadius: 20,  // Rounded corners for the container
-//         backgroundColor: '#fff',  // Background color for the container
-//         marginHorizontal: 8,
-//         shadowColor: '#000',
-//         shadowOpacity: 0.2,
-//         shadowRadius: 4,
-//         elevation: 5,  // Shadow effect for Android
-//     },
-
-//     iconContainer: {
-//         flexDirection: 'row',
-//         justifyContent: 'space-around',
-//         width: '100%',
-//         marginVertical: 10,
-//     },
-//     iconButton: {
-//         alignItems: 'center',
-//     },
-//     iconBackground: {
-//         backgroundColor: colors.coloruse, // Background color for icon
-//         padding: 10,
-//         borderRadius: 30, // Circular background
-//         marginBottom: 5, // Space between icon and label
-//     },
-//     iconLabel: {
-//         fontSize: 14,
-//         color: '#333',
-//     },
-
-// });
-
-// export default FrameComponent;
 
 
 import React from 'react';
-import { StyleSheet, View,Text } from 'react-native';
-import { Surface, IconButton } from 'react-native-paper';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import { Surface, IconButton, } from 'react-native-paper';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import colors from '../styles/colors';
 import spacing from '../styles/spacing';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import { useNavigation } from '@react-navigation/native';
 
 const FrameComponent = () => {
+  const navigation = useNavigation();
+  // console.log("nkhidfsadch", navigation);
   return (
     <Surface style={styles.container}>
       <View style={styles.iconContainer}>
         {/* Home Icon */}
         <View style={styles.iconWrapper}>
           <IconButton
-            icon={() => <Icon name="home" size={24} color="#fff" />}
+            icon={() => <FontAwesome name="money" size={22} color="#fff" />}
             style={styles.iconBackground}
-            onPress={() => console.log("Home pressed")}
+            onPress={() =>
+               console.log("Home pressed")
+
+            }
           />
-          <Text style={styles.iconLabel}>Home</Text>
+          <Text style={styles.iconLabel}>Fee</Text>
         </View>
 
         {/* Notifications Icon */}
+
         <View style={styles.iconWrapper}>
           <IconButton
-            icon={() => <Icon name="bell" size={24} color="#fff" />}
+            icon={() => <Ionicons name="person-circle-outline" size={28} color="#fff" />}
             style={styles.iconBackground}
-            onPress={() => console.log("Notifications pressed")}
+            onPress={() => {
+              console.log("Navigating to ProfileScreen");
+              navigation.navigate('ProfileScreen')
+            }}
+          // onPress={() => navigation?.navigate('ProfileScreen')}
           />
-          <Text style={styles.iconLabel}>Notifications</Text>
+          <Text style={styles.iconLabel}>Profile</Text>
         </View>
+
 
         {/* Settings Icon */}
         <View style={styles.iconWrapper}>
           <IconButton
-            icon={() => <Icon name="cog" size={24} color="#fff" />}
+            icon={() => <Ionicons name="people-sharp" size={24} color="#fff" />}
             style={styles.iconBackground}
-            onPress={() => console.log("Settings pressed")}
+            onPress={() =>{
+              console.log("Navigating to parentProfile");
+              navigation.navigate('Parentprofile')
+            }}
           />
-          <Text style={styles.iconLabel}>Settings</Text>
+          <Text style={styles.iconLabel}>Parent Profile</Text>
         </View>
 
         {/* Attendance Icon */}
         <View style={styles.iconWrapper}>
           <IconButton
-            icon={() => <Icon name="check-square" size={24} color="#fff" />}
+            icon={() => <FontAwesome name="check-square" size={24} color="#fff" />}
             style={styles.iconBackground}
             onPress={() => console.log("Attendance pressed")}
           />
@@ -160,7 +72,7 @@ const FrameComponent = () => {
         {/* Home Icon */}
         <View style={styles.iconWrapper}>
           <IconButton
-            icon={() => <Icon name="home" size={24} color="#fff" />}
+            icon={() => <FontAwesome name="home" size={24} color="#fff" />}
             style={styles.iconBackground}
             onPress={() => console.log("Home pressed")}
           />
@@ -170,7 +82,7 @@ const FrameComponent = () => {
         {/* Notifications Icon */}
         <View style={styles.iconWrapper}>
           <IconButton
-            icon={() => <Icon name="bell" size={24} color="#fff" />}
+            icon={() => <FontAwesome name="bell" size={24} color="#fff" />}
             style={styles.iconBackground}
             onPress={() => console.log("Notifications pressed")}
           />
@@ -180,7 +92,7 @@ const FrameComponent = () => {
         {/* Settings Icon */}
         <View style={styles.iconWrapper}>
           <IconButton
-            icon={() => <Icon name="cog" size={24} color="#fff" />}
+            icon={() => <FontAwesome name="cog" size={24} color="#fff" />}
             style={styles.iconBackground}
             onPress={() => console.log("Settings pressed")}
           />
@@ -190,7 +102,7 @@ const FrameComponent = () => {
         {/* Attendance Icon */}
         <View style={styles.iconWrapper}>
           <IconButton
-            icon={() => <Icon name="check-square" size={24} color="#fff" />}
+            icon={() => <FontAwesome name="check-square" size={24} color="#fff" />}
             style={styles.iconBackground}
             onPress={() => console.log("Attendance pressed")}
           />
@@ -221,14 +133,14 @@ const styles = StyleSheet.create({
   },
   iconWrapper: {
     alignItems: 'center', // Center both icon and label
- 
+
   },
   iconLabel: {
     fontSize: 12,
     color: colors.text,
     marginBottom: 20,
     fontFamily: 'Roboto',
-    fontWeight:'700'
+    fontWeight: '700'
   },
 });
 

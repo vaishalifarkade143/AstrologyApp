@@ -5,28 +5,22 @@ import React from 'react'
 const Header = ({ leftIcon, rightIcon, middleIcon, onClickLeftIcon, onClickRightIcon }) => {
     return (
         <View style={styles.header}>
-
             <TouchableOpacity style={styles.btn}
                 onPress={() => {
                     onClickLeftIcon();
-
                 }}>
                 <Image source={leftIcon} style={styles.icon} />
             </TouchableOpacity>
             <Image source={middleIcon} style={styles.midicon} />
-
             <TouchableOpacity style={styles.btn}
                 onPress={() => {
-
                     onClickRightIcon();
                 }}>
                 <Image source={rightIcon} style={styles.logoicon} />
             </TouchableOpacity>
-
         </View>
     )
 }
-
 export default Header;
 
 const styles = StyleSheet.create({

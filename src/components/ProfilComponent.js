@@ -86,6 +86,8 @@ import { Avatar, Card, Text } from 'react-native-paper';
 import colors from '../styles/colors';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
+
+
 const ProfileComponent = () => {
   const [profileData, setProfileData] = useState(null);
   const [loading, setLoading] = useState(true);

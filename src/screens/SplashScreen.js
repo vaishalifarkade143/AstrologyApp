@@ -1,17 +1,17 @@
 
 
-import{useEffect} from 'react';
+import { useEffect } from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
 
 const SplashScreen = ({ navigation }) => {
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            navigation.navigate('Login');
-          // setIsLoading(false);
-        }, 3000); // 3 seconds for the splash screen
-    
-        return () => clearTimeout(timer); // Clean up the timer when component unmounts
-      }, []);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      navigation.navigate('Login');
+      // setIsLoading(false);
+    }, 3000); // 3 seconds for the splash screen
+
+    return () => clearTimeout(timer); // Clean up the timer when component unmounts
+  }, []);
   return (
     <View style={styles.container}>
       <Image
