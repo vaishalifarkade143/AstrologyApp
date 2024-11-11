@@ -13,10 +13,10 @@ const ProfileScreen = ({ navigation }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const handleSignOut = () => {
-    console.log('Signing out...');
-    navigation.navigate('Login');
-  };
+  // const handleSignOut = () => {
+  //   console.log('Signing out...');
+  //   navigation.navigate('Login');
+  // };
 
   useEffect(() => {
     const fetchProfileData = async () => {
@@ -52,9 +52,9 @@ const ProfileScreen = ({ navigation }) => {
       {/* Header */}
       <Header
         leftIcon={require('../images/back.png')}
-        rightIcon={require('../images/logout.png')}
+        // rightIcon={require('../images/logout.png')}
         onClickLeftIcon={() => navigation.goBack()}
-        onClickRightIcon={handleSignOut}
+        // onClickRightIcon={handleSignOut}
       />
 
       <View style={[styles.roundedContainer, { backgroundColor: theme.colors.background }]}>
@@ -132,7 +132,7 @@ const ProfileScreen = ({ navigation }) => {
                 <Text style={styles.label}>Permanent Address </Text>
                 <Text style={styles.value}>{profileData.permanent_address}</Text>
               </View>
-              <View style={styles.dividerView}></View>
+              <View style={styles.dividerView}/>
             </View>
 
 
