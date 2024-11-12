@@ -1,18 +1,38 @@
 // src/screens/SettingsScreen.js
-import * as React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import CustomAppbar from '../components/CustomAppbar';
+import React, { useContext, useEffect, useState } from 'react';
+import { View, StyleSheet, ActivityIndicator, Alert, Text, FlatList, Dimensions } from 'react-native';
+import colors from '../styles/colors';
+import Header from '../common/Header';
+import { PreferencesContext } from '../context/PreferencesContext';
 
-const SettingsScreen = ({ navigation }) => {
+const AttendanceScreen = ({ navigation }) => {
+  const { theme } = useContext(PreferencesContext);
   return (
-    <>
-      <CustomAppbar navigation={navigation} title="Setting" subtitle="Subtitle" />
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-    <Text>Settings Screen</Text>
+    <View style={styles.container}>
+    <Header
+      leftIcon={require('../images/back.png')}
+       title="Attendance"
+      onClickLeftIcon={() => navigation.goBack()}
+    />
+
+    <View style={[styles.roundedContainer, { backgroundColor: theme.colors.background }]}>
+    <Text>Attendance Screen</Text>
   </View>
-  </>
+  </View>
   );
 };
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: colors.coloruse,
+  },
+  roundedContainer: {
+    flex: 1,
+    marginTop: 5,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    padding: 15,
+  },
+});
 
-
-export default SettingsScreen;
+export default AttendanceScreen;

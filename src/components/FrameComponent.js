@@ -9,22 +9,25 @@ import colors from '../styles/colors';
 import spacing from '../styles/spacing';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from '@react-navigation/native';
-
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import Entypo from 'react-native-vector-icons/Entypo';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+MaterialCommunityIcons
 const FrameComponent = () => {
   const navigation = useNavigation();
   // console.log("nkhidfsadch", navigation);
   return (
     <Surface style={styles.container}>
       <View style={styles.iconContainer}>
-        {/* Home Icon */}
+        {/* Fee Icon */}
         <View style={styles.iconWrapper}>
           <IconButton
             icon={() => <FontAwesome name="money" size={22} color="#fff" />}
             style={styles.iconBackground}
-            onPress={() =>
-               console.log("Home pressed")
-
-            }
+            onPress={() =>{
+              console.log("Home pressed")
+              navigation.navigate('Fee')
+                        }}
           />
           <Text style={styles.iconLabel}>Fee</Text>
         </View>
@@ -41,16 +44,16 @@ const FrameComponent = () => {
             }}
           // onPress={() => navigation?.navigate('ProfileScreen')}
           />
-          <Text style={styles.iconLabel}>Profile</Text>
+          <Text style={styles.iconLabel}>Student Profile</Text>
         </View>
 
 
-        {/* Settings Icon */}
+        {/* Parent Profile */}
         <View style={styles.iconWrapper}>
           <IconButton
             icon={() => <Ionicons name="people-sharp" size={24} color="#fff" />}
             style={styles.iconBackground}
-            onPress={() =>{
+            onPress={() => {
               console.log("Navigating to parentProfile");
               navigation.navigate('Parentprofile')
             }}
@@ -63,50 +66,63 @@ const FrameComponent = () => {
           <IconButton
             icon={() => <FontAwesome name="check-square" size={24} color="#fff" />}
             style={styles.iconBackground}
-            onPress={() => console.log("Attendance pressed")}
+            onPress={() => {console.log("Attendance pressed");
+              navigation.navigate('Attendance')
+            }}
           />
           <Text style={styles.iconLabel}>Attendance</Text>
         </View>
       </View>
       <View style={styles.iconContainer}>
-        {/* Home Icon */}
+        {/* Time Table */}
         <View style={styles.iconWrapper}>
           <IconButton
-            icon={() => <FontAwesome name="home" size={24} color="#fff" />}
+            icon={() => <MaterialIcons name="watch-later" size={24} color="#fff" />}
             style={styles.iconBackground}
-            onPress={() => console.log("Home pressed")}
+            onPress={() =>{console.log("Time Table");
+              navigation.navigate('Timetable')
+            }}
           />
-          <Text style={styles.iconLabel}>Home</Text>
+          <Text style={styles.iconLabel}>Time Table</Text>
         </View>
 
-        {/* Notifications Icon */}
+        {/* Leave Application */}
+        <View style={styles.iconWrapper}>
+          <IconButton
+            icon={() => <MaterialCommunityIcons name="email-newsletter" size={24} color="#fff" />}
+            style={styles.iconBackground}
+            onPress={() => {console.log("Leave Application");
+              navigation.navigate('Leaveapplication')
+            }}
+         
+          />
+          <Text style={styles.iconLabel1}>Student leave</Text>
+          <Text style={styles.iconLabel}> Application</Text>
+        </View>
+
+        {/* Student Activity */}
         <View style={styles.iconWrapper}>
           <IconButton
             icon={() => <FontAwesome name="bell" size={24} color="#fff" />}
             style={styles.iconBackground}
-            onPress={() => console.log("Notifications pressed")}
+            onPress={() => {console.log("Student Activity");
+              navigation.navigate('Studentactivity')
+            }}
           />
-          <Text style={styles.iconLabel}>Notifications</Text>
+          <Text style={styles.iconLabel}>Student Activity</Text>
         </View>
 
-        {/* Settings Icon */}
-        <View style={styles.iconWrapper}>
-          <IconButton
-            icon={() => <FontAwesome name="cog" size={24} color="#fff" />}
-            style={styles.iconBackground}
-            onPress={() => console.log("Settings pressed")}
-          />
-          <Text style={styles.iconLabel}>Settings</Text>
-        </View>
 
-        {/* Attendance Icon */}
+        {/* Ecampus Icon */}
         <View style={styles.iconWrapper}>
           <IconButton
-            icon={() => <FontAwesome name="check-square" size={24} color="#fff" />}
+            icon={() => <Entypo name="newsletter" size={24} color="#fff" />}
             style={styles.iconBackground}
-            onPress={() => console.log("Attendance pressed")}
+            onPress={() => {console.log("Ecampus pressed");
+              navigation.navigate('Ecampus')
+            }}
           />
-          <Text style={styles.iconLabel}>Attendance</Text>
+          <Text style={styles.iconLabel}>Ecampus</Text>
         </View>
       </View>
     </Surface>
@@ -134,6 +150,12 @@ const styles = StyleSheet.create({
   iconWrapper: {
     alignItems: 'center', // Center both icon and label
 
+  },
+  iconLabel1: {
+    fontSize: 12,
+    color: colors.text,
+    fontFamily: 'Roboto',
+    fontWeight: '700'
   },
   iconLabel: {
     fontSize: 12,

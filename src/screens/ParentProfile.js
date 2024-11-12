@@ -12,7 +12,7 @@ import { PreferencesContext } from '../context/PreferencesContext';
 
 const { width } = Dimensions.get('window'); // Get screen width for full-width cards
 
-const ParentProfile = () => {
+const ParentProfile = ({navigation}) => {
   const { theme } = useContext(PreferencesContext);
   const [profileData, setProfileData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -256,7 +256,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.placeholder,
   },
   dotDivider: {
-    width: 20,
+    width: 10,
     height: 2,
     backgroundColor: colors.placeholder,
   },

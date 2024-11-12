@@ -1,17 +1,19 @@
-import { View, Image, TouchableOpacity, StyleSheet } from 'react-native'
+import { View, Image, TouchableOpacity, StyleSheet ,Text} from 'react-native'
 import React from 'react'
 
 
-const Header = ({ leftIcon, rightIcon, middleIcon, onClickLeftIcon, onClickRightIcon }) => {
+const Header = ({ leftIcon, rightIcon, title, onClickLeftIcon, onClickRightIcon }) => {
     return (
         <View style={styles.header}>
             <TouchableOpacity style={styles.btn}
                 onPress={() => {
                     onClickLeftIcon();
                 }}>
-                <Image source={leftIcon} style={styles.icon} />
+                <Image source={leftIcon} style={styles.icon}/>
             </TouchableOpacity>
-            <Image source={middleIcon} style={styles.midicon} />
+              {/* Display text in the middle */}
+              <Text style={styles.titleText}>{title}</Text>
+            {/* <Image source={middleIcon} style={styles.midicon} /> */}
             <TouchableOpacity style={styles.btn}
                 onPress={() => {
                     onClickRightIcon();
@@ -25,7 +27,7 @@ export default Header;
 
 const styles = StyleSheet.create({
     header: {
-        height: 60,
+        height: 35,
         // backgroundColor: '#B9E5E8',//,
         flexDirection: 'row',
         justifyContent: 'space-between',
@@ -49,8 +51,17 @@ const styles = StyleSheet.create({
         height: 20,
     },
     icon: {
-        width: 40,
-        height: 40,
+        width: 25,
+        height: 25,
+        tintColor: '#fff',
     },
-
+    titleText: {
+        fontFamily: "Roboto",
+        fontWeight: "bold",
+        fontSize: 13,
+        color: "#fff",
+        marginLeft:20,
+        // textAlign: 'center',
+        flex: 1,  // To center the title properly
+    },
 });

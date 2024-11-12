@@ -1,25 +1,29 @@
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Animated, Dimensions,StatusBar  } from 'react-native';
 import React, { useState, useContext, useRef } from 'react';
+import {
+  View, Text, StyleSheet, TouchableOpacity, ScrollView, Animated, Dimensions, StatusBar
+} from 'react-native';
 import Header from '../common/Header';
 import colors from '../styles/colors';
 import Modal from "react-native-modal";
 import FrameComponent from '../components/FrameComponent';
 import ProfileComponent from '../components/ProfilComponent';
 import ModalComponent from '../components/ModalComponent';
-
 import { PreferencesContext } from '../context/PreferencesContext';
 
 const { width } = Dimensions.get("window");
+
 const HomeScreen = ({ navigation }) => {
   const { theme } = useContext(PreferencesContext);
   const [visible, setVisible] = useState(false);
   const [selectedOption, setSelectedOption] = useState('option1');
-  const [buttonWidth, setButtonWidth] = useState(width / 4);
+  const buttonWidth = width / 5;
   const translateX = useRef(new Animated.Value(0)).current;
+
   const handleSignOut = () => {
     console.log('Signing out...');
     navigation.navigate('Login');
   };
+
   const handleButtonPress = (option, index) => {
     setSelectedOption(option);
     Animated.spring(translateX, {
@@ -27,6 +31,7 @@ const HomeScreen = ({ navigation }) => {
       useNativeDriver: true,
     }).start();
   };
+
   const renderContent = () => {
     switch (selectedOption) {
       case 'option1':
@@ -43,25 +48,25 @@ const HomeScreen = ({ navigation }) => {
         return null;
     }
   };
+
   return (
-    <View style={[styles.container,
-    { backgroundColor: colors.coloruse }]}>
-            <StatusBar  backgroundColor={colors.coloruse} barStyle="light-content" />
+    <View style={[styles.container, { backgroundColor: colors.coloruse }]}>
+      <StatusBar backgroundColor={colors.coloruse} barStyle="light-content" />
       <Header
-        leftIcon={require('../images/era.png')}
+        title="Era International School, Besa"
         rightIcon={require('../images/logout.png')}
-        onClickLeftIcon={() => console.log('ERA logo clicked')}
         onClickRightIcon={handleSignOut}
       />
-      <View style={[styles.roundedContainer,
-      { backgroundColor: theme.colors.background }]}>
+      
+      <View style={[styles.roundedContainer, { backgroundColor: theme.colors.background }]}>
         <ProfileComponent />
         <FrameComponent />
+
+        {/* Option Buttons */}
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={styles.scrollContentContainer}
-          onLayout={(event) => setButtonWidth(event.nativeEvent.layout.width / 4)}
         >
           {['option1', 'option2', 'option3', 'option4', 'option5'].map((option, index) => (
             <TouchableOpacity
@@ -75,6 +80,8 @@ const HomeScreen = ({ navigation }) => {
             </TouchableOpacity>
           ))}
         </ScrollView>
+
+        {/* Divider Animation */}
         <Animated.View
           style={[
             styles.divider,
@@ -84,31 +91,37 @@ const HomeScreen = ({ navigation }) => {
             },
           ]}
         />
+
+        {/* Content Area */}
         <View style={styles.contentContainer}>
-          <Text> 
-            {renderContent()}
-            </Text>
-         </View>
+          {renderContent()}
+        </View>
+
+        {/* Add Button */}
         <TouchableOpacity style={styles.addButton} onPress={() => setVisible(true)}>
           <Text style={styles.addButtonText}>+</Text>
         </TouchableOpacity>
+
+        {/* Modal */}
         <Modal
           isVisible={visible}
-          onBackButtonPress={() => setVisible(false)} // Dismiss modal on back button press
-          onBackdropPress={() => setVisible(false)} // Dismiss modal on backdrop press
-          onSwipeComplete={() => setVisible(false)} // Dismiss modal on swipe down
-          swipeDirection="down" // Enables swipe down to dismiss
-          style={styles.modal} // Use this style to position modal
+          onBackButtonPress={() => setVisible(false)}
+          onBackdropPress={() => setVisible(false)}
+          onSwipeComplete={() => setVisible(false)}
+          swipeDirection="down"
+          style={styles.modal}
         >
           <ModalComponent />
         </Modal>
       </View>
+
+      {/* Company Label */}
       <View style={{ backgroundColor: colors.coloruse }}>
         <Text style={styles.companyLabel}>Educron</Text>
       </View>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -123,24 +136,24 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   addButton: {
-    position: 'absolute', // Absolute positioning
-    bottom: 20, // Distance from the bottom
-    right: 20, // Distance from the right
+    position: 'absolute',
+    bottom: 20,
+    right: 20,
     width: 60,
     height: 60,
     borderRadius: 30,
     backgroundColor: colors.coloruse,
     justifyContent: 'center',
     alignItems: 'center',
-    elevation: 5, // Add shadow for better visibility
+    elevation: 5,
   },
   addButtonText: {
     fontSize: 30,
     color: '#fff',
   },
   modal: {
-    margin: 0, // Remove default margins
-    justifyContent: 'flex-end', // Position modal at the bottom
+    margin: 0,
+    justifyContent: 'flex-end',
   },
   companyLabel: {
     textAlign: 'center',
@@ -149,17 +162,17 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 12,
     paddingTop: 3,
-    paddingBottom: 3
+    paddingBottom: 3,
   },
   scrollContentContainer: {
     flexDirection: 'row',
     marginTop: 10,
   },
   button: {
+    width: width / 5,
     height: 55,
     paddingVertical: 15,
-    paddingHorizontal: 15,
-    borderRadius: 15,
+    alignItems: 'center',
   },
   selectedButton: {
     backgroundColor: colors.backgroundlight,
@@ -169,14 +182,13 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 13,
     color: '#000',
-    textAlign: 'center'
+    textAlign: 'center',
   },
   selectedText: {
     fontFamily: "Roboto",
     fontWeight: "bold",
     fontSize: 13,
     color: colors.coloruse,
-    fontWeight: 'bold',
   },
   divider: {
     height: 3,
@@ -186,6 +198,7 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     marginTop: 20,
+    paddingHorizontal: 10,
   },
 });
 
