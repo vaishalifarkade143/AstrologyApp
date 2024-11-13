@@ -18,21 +18,45 @@ const Fee = ({ navigation }) => {
         onClickLeftIcon={() => navigation.goBack()}
       />
 
-      <View style={[styles.roundedContainer, { backgroundColor: theme.colors.background }]}>
+      <View 
+      style={[styles.roundedContainer, 
+      { backgroundColor: theme.colors.background }]}>
         <Image source={require('../images/money.jpg')} style={styles.image} />
 
         {/* Paid and Due Containers */}
         <View style={styles.rowContainer}>
-          <View style={styles.paidfee}>
-            <View style={styles.iconWrapper}>
-              <FontAwesome name="money" size={26} color="#fff" />
+          {/* TouchableOpacity for Paid Fee */}
+          <TouchableOpacity onPress={() => {
+             navigation.navigate('Paidfee');
+          }} 
+          style={styles.touchableFee}>
+            <View style={styles.paidfee}>
+              <View style={[styles.iconWrapper, { backgroundColor: colors.coloruse }]}>
+                <FontAwesome name="money" size={26} color="#fff" />
+              </View>
+              {/* <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <Image
+                  source={require('../images/rupee.png')}
+                  style={[styles.rupeeIcon, { tintColor: colors.coloruse }]}
+                /> */}
+                <Text style={[styles.textStyle, { color: colors.coloruse }]}>₹ 45545</Text>
+              {/* </View> */}
+              <Text style={styles.textStyle}>Paid Fee</Text>
             </View>
-            <Text style={styles.textStyle}>Paid Fee</Text>
-          </View>
+          </TouchableOpacity>
+
+          {/* Due Fee Container */}
           <View style={styles.due}>
-            <View style={styles.iconWrapper}>
+            <View style={[styles.iconWrapper, { backgroundColor: colors.red }]}>
               <FontAwesome name="money" size={26} color="#fff" />
             </View>
+            {/* <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <Image
+                source={require('../images/rupee.png')}
+                style={[styles.rupeeIcon, { tintColor: colors.red }]}
+              /> */}
+              <Text style={[styles.textStyle, { color: colors.red }]}>₹ 45545</Text>
+            {/* </View> */}
             <Text style={styles.textStyle}>Due Fee</Text>
           </View>
         </View>
@@ -47,11 +71,22 @@ const Fee = ({ navigation }) => {
           <View style={styles.iconWrapper1}>
             <FontAwesome name="money" size={26} color="#fff" />
           </View>
-          <Text style={styles.textStyle}>Total Fee</Text>
+          <View>
+            {/* <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <Image
+                source={require('../images/rupee.png')}
+                style={[styles.rupeeIcon, { tintColor: colors.bluedark }]}
+              /> */}
+              <Text style={[styles.textStyle, { color: colors.bluedark }]}>₹ 45545</Text>
+            {/* </View> */}
+            <Text style={styles.textStyle}>Total Fee</Text>
+          </View>
         </View>
 
         {/* Pay Button */}
-        <TouchableOpacity style={styles.payButton} onPress={() => {/* Handle Pay Action Here */}}>
+        <TouchableOpacity style={styles.payButton} onPress={() => { 
+           navigation.navigate('Paynow');
+           }}>
           <Text style={styles.payButtonText}>Pay Now</Text>
         </TouchableOpacity>
       </View>
@@ -84,6 +119,10 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginTop: 15,
   },
+  touchableFee: {
+    flex: 1.2,
+    marginRight: 7.5,
+  },
   paidfee: {
     flex: 1,
     borderTopLeftRadius: 20,
@@ -92,7 +131,6 @@ const styles = StyleSheet.create({
     backgroundColor: colors.backgroundlight,
     padding: 15,
     height: 190,
-    marginRight: 7.5,
     alignItems: 'center',
   },
   due: {
@@ -121,8 +159,9 @@ const styles = StyleSheet.create({
   },
   textStyle: {
     fontFamily: "Roboto",
-    fontSize: 13,
-    color: colors.placeholder,
+    fontSize: 16,
+    fontWeight: '700',
+    color: colors.black,
   },
   potliContainer: {
     position: 'absolute',
@@ -142,21 +181,25 @@ const styles = StyleSheet.create({
     height: '100%',
     resizeMode: 'cover',
   },
+  rupeeIcon: {
+    width: 15,
+    height: 15,
+    marginRight: 5,
+  },
   iconWrapper: {
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: colors.coloruse, // Background color for the icon
-    width: 50, // Size of the circle
-    height: 50, // Size of the circle
+    width: 45, // Size of the circle
+    height: 45, // Size of the circle
     borderRadius: 10,
     marginBottom: 10, // Space between icon and label
   },
   iconWrapper1: {
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: colors.coloruse,
-    width: 50,
-    height: 50,
+    backgroundColor: colors.bluedark,
+    width: 45, // Size of the circle
+    height: 45,
     borderRadius: 10,
     marginRight: 10, // Space between icon and label (for total fee)
   },
