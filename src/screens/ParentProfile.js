@@ -73,6 +73,7 @@ const ParentProfile = ({navigation}) => {
     <View style={styles.container}>
       <Header
         leftIcon={require('../images/back.png')}
+         title="Parent Profile"
         onClickLeftIcon={() => navigation.goBack()}
       />
 

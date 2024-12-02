@@ -52,7 +52,7 @@ const ProfileScreen = ({ navigation }) => {
       {/* Header */}
       <Header
         leftIcon={require('../images/back.png')}
-        // rightIcon={require('../images/logout.png')}
+         title="Student Profile"
         onClickLeftIcon={() => navigation.goBack()}
         // onClickRightIcon={handleSignOut}
       />

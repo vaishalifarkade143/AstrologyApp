@@ -1,26 +1,153 @@
-// // src/screens/SettingsScreen.js
-// import React, { useContext, useEffect, useState } from 'react';
-// import { View, StyleSheet, ActivityIndicator, Alert, Text, FlatList, Dimensions } from 'react-native';
+// import React, { useContext, useState, useRef } from 'react';
+// import { View, StyleSheet, Text, Dimensions, TouchableOpacity, ImageBackground } from 'react-native';
+// import { CalendarList } from 'react-native-calendars';
+// import PieChart from 'react-native-pie-chart';
 // import colors from '../styles/colors';
 // import Header from '../common/Header';
 // import { PreferencesContext } from '../context/PreferencesContext';
+// import moment from 'moment';
+// const { width } = Dimensions.get("window");
 
 // const AttendanceScreen = ({ navigation }) => {
 //   const { theme } = useContext(PreferencesContext);
+//   const calendarRef = useRef(null);
+//   const [currentDate, setCurrentDate] = useState(moment()); 
+
+//   const [attendance] = useState({
+//     '2023-11-01': { marked: true, color: 'green' },
+//     '2023-11-02': { marked: true, color: 'red' },
+//     '2023-11-03': { marked: true, color: 'green' },
+//     '2023-11-04': { marked: true, color: 'green' },
+//     '2023-11-05': { marked: true, color: 'red' },
+//   });
+
+//   const presentDays = Object.values(attendance).filter(day => day.color === 'green').length;
+//   const absentDays = Object.values(attendance).filter(day => day.color === 'red').length;
+
+
+//     // Update header when calendar is scrolled
+//     const handleVisibleMonthsChange = (months) => {
+//       if (months && months.length > 0) {
+//         const visibleMonth = months[0].dateString; // Get the first visible month
+//         setCurrentDate(moment(visibleMonth));
+//       }
+//     };
+
+//     // Helper to update month and year
+//     const handleMonthChange = (direction) => {
+//       const newDate =
+//         direction === 'prev'
+//           ? moment(currentDate).subtract(1, 'month')
+//           : moment(currentDate).add(1, 'month');
+//       setCurrentDate(newDate);
+//       calendarRef.current?.scrollToMonth(newDate.format('YYYY-MM-DD'));
+//     };
+   
+
 //   return (
 //     <View style={styles.container}>
-//     <Header
-//       leftIcon={require('../images/back.png')}
-//        title="Attendance"
-//       onClickLeftIcon={() => navigation.goBack()}
-//     />
+//       <Header
+//         leftIcon={require('../images/back.png')}
+//         title="Attendance"
+//         onClickLeftIcon={() => navigation.goBack()}
+//       />
 
-//     <View style={[styles.roundedContainer, { backgroundColor: theme.colors.background }]}>
-//     <Text>Attendance Screen</Text>
-//   </View>
-//   </View>
+//       <View style={[styles.roundedContainer,
+//          { backgroundColor: theme.colors.background }]}>
+//         {/* Calendar Component */}
+//         <ImageBackground
+//           source={require('../images/paidfee.jpg')} // Replace with your header image path
+//           style={styles.calendarHeaderBackground}
+//         >
+//           <View style={styles.calendarHeader}>
+//             <TouchableOpacity onPress={() => handleMonthChange('prev')}>
+//               <Text style={styles.arrow}>{"<"}</Text>
+//             </TouchableOpacity>
+//             <Text style={styles.monthText}>{currentDate.format('MMMM YYYY')}</Text>
+//             <TouchableOpacity onPress={() => handleMonthChange('next')}>
+//               <Text style={styles.arrow}>{">"}</Text>
+//             </TouchableOpacity>
+//           </View>
+//         </ImageBackground>
+
+//         {/* Horizontal Scrollable Calendar */}
+//         <View style={styles.calendarContainer}>
+
+//         <CalendarList
+//           ref={calendarRef}
+//           horizontal
+//           pagingEnabled
+//           renderHeader={() => null} // Disable default header
+//           calendarWidth={Dimensions.get('window').width}
+//           onMonthChange={(date) => setCurrentDate(moment(date.dateString))}
+//           onVisibleMonthsChange={handleVisibleMonthsChange} // Handle month updates
+//           markedDates={attendance} // Mark attendance dates
+//           theme={{
+//             backgroundColor: theme.colors.background,
+//             calendarBackground: theme.colors.background,
+//             textSectionTitleColor: colors.coloruse,
+//             selectedDayBackgroundColor: colors.primary,
+//             selectedDayTextColor: colors.white,
+//             todayTextColor: colors.coloruse,
+//             dayTextColor: colors.black,
+//           }}
+//           // ref={calendarRef}
+//         />
+//       </View>
+//       <View style={styles.dividerView} />
+
+//       {/* Legend Section */}
+//       <View style={styles.legendContainer}>
+//         <View style={[styles.legendItem, { backgroundColor: colors.coloruse }]} />
+//         <Text style={styles.legendText}>Present</Text>
+
+//         <View style={[styles.legendItem, { backgroundColor: colors.red }]} />
+//         <Text style={styles.legendText}>Absent</Text>
+
+//         <View style={[styles.legendItem, { backgroundColor: colors.holiday }]} />
+//         <Text style={styles.legendText}>Holiday</Text>
+//       </View>
+
+//       {/* Pie Chart with Details */}
+//       <View style={styles.pieChartContainer}>
+//         {/* Pie Chart */}
+//         <PieChart
+//           widthAndHeight={170}
+//           series={[presentDays, absentDays]}
+//           sliceColor={[colors.coloruse, colors.red]}
+//           coverRadius={0.6}
+//           coverFill={theme.colors.background}
+//         />
+//         {/* Attendance Details */}
+//         <View style={styles.pieChartDetails}>
+//           {/* Present Details */}
+//           <View style={styles.detailRow}>
+//             <View style={[styles.legendCircle, { backgroundColor: colors.coloruse }]} />
+//             <View>
+//               <Text style={styles.detailText}>Present: {presentDays}</Text>
+//               <Text style={styles.percentageText}>
+//                 {((presentDays / (presentDays + absentDays)) * 100).toFixed(2)}%
+//               </Text>
+//             </View>
+//           </View>
+//           {/* Absent Details */}
+//           <View style={styles.detailRow}>
+//             <View style={[styles.legendCircle, { backgroundColor: colors.red }]} />
+//             <View>
+//               <Text style={styles.detailText}>Absent: {absentDays}</Text>
+//               <Text style={styles.percentageText}>
+//                 {((absentDays / (presentDays + absentDays)) * 100).toFixed(2)}%
+//               </Text>
+//             </View>
+//           </View>
+
+//         </View>
+//       </View>
+//     </View>
+//     </View >
 //   );
 // };
+
 // const styles = StyleSheet.create({
 //   container: {
 //     flex: 1,
@@ -33,6 +160,107 @@
 //     borderTopRightRadius: 20,
 //     padding: 15,
 //   },
+  
+//   calendarHeaderBackground: {
+//     marginTop: -13,
+//     width: '100%',
+//     height: Dimensions.get('window').height * 0.1, // Header height reduced to 10% of screen height
+//     justifyContent: 'center',
+//     alignItems: 'center',
+//   },
+//   calendarHeader: {
+//     flexDirection: 'row',
+//     alignItems: 'center',
+//     justifyContent: 'space-between',
+//     width: '90%',
+//     paddingHorizontal: 10,
+//   },
+//   calendarContainer: {
+//     backgroundColor: colors.white,
+//     borderBottomWidth: 1,
+//     borderBottomColor: colors.lightGray,
+//     margin: 0, // Ensure no margin
+//     padding: 0, 
+//   },
+//   monthText: {
+//     fontSize: 20,
+//     fontWeight: 'bold',
+//     color: colors.white,
+
+//   },
+//   arrow: {
+//     fontSize: 24,
+//     color: colors.coloruse,
+//   },
+//   legendContainer: {
+//     flexDirection: 'row',
+//     alignItems: 'center',
+//     marginTop: 10,
+//     borderWidth: 1.2,
+//     borderRadius: 10,
+//     borderColor: colors.coloruse,
+//     paddingHorizontal: 10,
+//     paddingVertical: 10,
+//     marginBottom: 15,
+//     backgroundColor: colors.backgroundlight,
+//   },
+//   legendItem: {
+//     width: 12,
+//     height: 12,
+//     marginRight: -5,
+//     marginHorizontal: 30,
+//     borderRadius: 6
+//   },
+//   legendText: {
+//     fontSize: 16,
+//     color: colors.text,
+//     marginHorizontal: 10,
+//   },
+//   dividerView: {
+//     marginTop: -50,
+//     height: 1,
+//     backgroundColor: colors.placeholder,
+//     alignSelf: 'center',
+//     marginBottom: 15,
+//     width: Dimensions.get('window').width * 0.93,
+//   },
+//   pieChartContainer: {
+//     flexDirection: 'row',
+//     alignItems: 'center',
+//     justifyContent: 'space-between',
+//     borderWidth: 1.2,
+//     borderRadius: 10,
+//     borderColor: colors.coloruse,
+//     paddingHorizontal: 10,
+//     paddingVertical: 15,
+//     backgroundColor: colors.backgroundlight,
+//   },
+//   pieChartDetails: {
+//     marginLeft: 20,
+//     justifyContent: 'center',
+//   },
+//   detailRow: {
+//     flexDirection: 'row',
+//     alignItems: 'center',
+//     marginBottom: 15,
+//     marginRight: 30
+//   },
+//   legendCircle: {
+//     width: 20,
+//     height: 20,
+//     borderRadius: 10,
+//     marginRight: 10,
+//   },
+//   detailText: {
+//     fontSize: 16,
+//     fontWeight: 'bold',
+//     color: colors.text,
+//   },
+//   percentageText: {
+//     fontSize: 14,
+//     color: colors.placeholder,
+//     marginTop: 2,
+//   },
 // });
 
 // export default AttendanceScreen;
@@ -42,20 +270,43 @@
 
 
 
-import React, { useContext, useState } from 'react';
-import { View, StyleSheet, Text, Dimensions, ScrollView } from 'react-native';
-import { Calendar } from 'react-native-calendars';
-import { BarChart } from 'react-native-chart-kit';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import React, { useContext, useState, useRef } from 'react';
+import { View, StyleSheet, Text, Dimensions, TouchableOpacity, ImageBackground } from 'react-native';
+import { CalendarList } from 'react-native-calendars';
+import PieChart from 'react-native-pie-chart';
 import colors from '../styles/colors';
 import Header from '../common/Header';
 import { PreferencesContext } from '../context/PreferencesContext';
+import moment from 'moment';
 
 const { width } = Dimensions.get("window");
 
 const AttendanceScreen = ({ navigation }) => {
   const { theme } = useContext(PreferencesContext);
+  const calendarRef = useRef(null);
+  const [currentDate, setCurrentDate] = useState(moment());
 
-  const [attendance, setAttendance] = useState({
+  const [attendance] = useState({
     '2023-11-01': { marked: true, color: 'green' },
     '2023-11-02': { marked: true, color: 'red' },
     '2023-11-03': { marked: true, color: 'green' },
@@ -66,6 +317,28 @@ const AttendanceScreen = ({ navigation }) => {
   const presentDays = Object.values(attendance).filter(day => day.color === 'green').length;
   const absentDays = Object.values(attendance).filter(day => day.color === 'red').length;
 
+  // Handle visible month change
+  const handleVisibleMonthsChange = (months) => {
+    if (months && months.length > 0) {
+      const visibleMonth = months[0].dateString;
+      // Only update if the month is different
+      if (!moment(visibleMonth).isSame(currentDate, 'month')) {
+        setCurrentDate(moment(visibleMonth));
+        calendarRef.current?.scrollToMonth(moment(visibleMonth).format('YYYY-MM-DD'));
+      }
+    }
+  };
+
+  // Navigate to previous or next month
+  const handleMonthChange = (direction) => {
+    const newDate =
+      direction === 'prev'
+        ? moment(currentDate).subtract(1, 'month')
+        : moment(currentDate).add(1, 'month');
+    setCurrentDate(newDate);
+    calendarRef.current?.scrollToMonth(newDate.format('YYYY-MM-DD'));
+  };
+
   return (
     <View style={styles.container}>
       <Header
@@ -75,41 +348,88 @@ const AttendanceScreen = ({ navigation }) => {
       />
 
       <View style={[styles.roundedContainer, { backgroundColor: theme.colors.background }]}>
-        <Text style={styles.title}>Attendance Calendar</Text>
-        
-        {/* Calendar Component */}
-        <Calendar
-          style={styles.calendar}
-          markedDates={attendance}
-          theme={{
-            selectedDayBackgroundColor: colors.coloruse,
-            todayTextColor: colors.coloruse,
-            arrowColor: colors.coloruse,
-          }}
-        />
+        {/* Calendar Header */}
+        <ImageBackground
+          source={require('../images/paidfee.jpg')}
+          style={styles.calendarHeaderBackground}
+        >
+          <View style={styles.calendarHeader}>
+            <TouchableOpacity onPress={() => handleMonthChange('prev')}>
+              <Text style={styles.arrow}>{"<"}</Text>
+            </TouchableOpacity>
+            <Text style={styles.monthText}>{currentDate.format('MMMM YYYY')}</Text>
+            <TouchableOpacity onPress={() => handleMonthChange('next')}>
+              <Text style={styles.arrow}>{">"}</Text>
+            </TouchableOpacity>
+          </View>
+        </ImageBackground>
 
-        {/* Attendance Summary Graph */}
-        <Text style={styles.title}>Present/Absent Summary</Text>
-        <ScrollView horizontal>
-          <BarChart
-            data={{
-              labels: ["Present", "Absent"],
-              datasets: [{ data: [presentDays, absentDays] }],
-            }}
-            width={width - 30}
-            height={220}
-            yAxisLabel=""
-            chartConfig={{
+        {/* Calendar List */}
+        <View style={styles.calendarContainer}>
+          <CalendarList
+            ref={calendarRef}
+            horizontal
+            pagingEnabled
+            scrollEnabled={true}
+            renderHeader={() => null}
+            calendarWidth={Dimensions.get('window').width}
+            onVisibleMonthsChange={handleVisibleMonthsChange}
+            markedDates={attendance}
+            theme={{
               backgroundColor: theme.colors.background,
-              backgroundGradientFrom: theme.colors.background,
-              backgroundGradientTo: theme.colors.background,
-              color: () => colors.coloruse,
-              labelColor: () => colors.text,
-              style: { borderRadius: 16 },
+              calendarBackground: theme.colors.background,
+              textSectionTitleColor: colors.coloruse,
+              selectedDayBackgroundColor: colors.primary,
+              selectedDayTextColor: colors.white,
+              todayTextColor: colors.coloruse,
+              dayTextColor: colors.black,
             }}
-            style={styles.chart}
           />
-        </ScrollView>
+        </View>
+
+        {/* Divider */}
+        <View style={styles.dividerView} />
+
+        {/* Legend */}
+        <View style={styles.legendContainer}>
+          <View style={[styles.legendItem, { backgroundColor: colors.coloruse }]} />
+          <Text style={styles.legendText}>Present</Text>
+          <View style={[styles.legendItem, { backgroundColor: colors.red }]} />
+          <Text style={styles.legendText}>Absent</Text>
+          <View style={[styles.legendItem, { backgroundColor: colors.holiday }]} />
+          <Text style={styles.legendText}>Holiday</Text>
+        </View>
+
+        {/* Pie Chart */}
+        <View style={styles.pieChartContainer}>
+          <PieChart
+            widthAndHeight={170}
+            series={[presentDays, absentDays]}
+            sliceColor={[colors.coloruse, colors.red]}
+            coverRadius={0.6}
+            coverFill={theme.colors.background}
+          />
+          <View style={styles.pieChartDetails}>
+            <View style={styles.detailRow}>
+              <View style={[styles.legendCircle, { backgroundColor: colors.coloruse }]} />
+              <View>
+                <Text style={styles.detailText}>Present: {presentDays}</Text>
+                <Text style={styles.percentageText}>
+                  {((presentDays / (presentDays + absentDays)) * 100).toFixed(2)}%
+                </Text>
+              </View>
+            </View>
+            <View style={styles.detailRow}>
+              <View style={[styles.legendCircle, { backgroundColor: colors.red }]} />
+              <View>
+                <Text style={styles.detailText}>Absent: {absentDays}</Text>
+                <Text style={styles.percentageText}>
+                  {((absentDays / (presentDays + absentDays)) * 100).toFixed(2)}%
+                </Text>
+              </View>
+            </View>
+          </View>
+        </View>
       </View>
     </View>
   );
@@ -127,19 +447,106 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 20,
     padding: 15,
   },
-  title: {
-    fontSize: 18,
+  calendarHeaderBackground: {
+    marginTop: -13,
+    width: '100%',
+    height: Dimensions.get('window').height * 0.1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  calendarHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    width: '90%',
+    paddingHorizontal: 10,
+  },
+  calendarContainer: {
+    width: Dimensions.get('window').width, // Match width
+    backgroundColor: colors.white,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.lightGray,
+    marginLeft:-15,
+    marginRight:10,
+    padding: 0,
+    overflow: 'hidden',
+  },
+  monthText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: colors.white,
+  },
+  arrow: {
+    fontSize: 24,
+    color: colors.coloruse,
+  },
+  legendContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 10,
+    borderWidth: 1.2,
+    borderRadius: 10,
+    borderColor: colors.coloruse,
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    marginBottom: 15,
+    backgroundColor: colors.backgroundlight,
+   },
+  legendItem: {
+    width: 12,
+    height: 12,
+    marginHorizontal: 12,
+    borderRadius: 6,
+  },
+  legendText: {
+    fontSize: 16,
+    color: colors.text,
+    marginRight:15
+  },
+  dividerView: {
+    marginTop: -50,
+    height: 1,
+    backgroundColor: colors.placeholder,
+    alignSelf: 'center',
+    marginBottom: 15,
+    width: Dimensions.get('window').width * 0.93,
+  },
+  pieChartContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    borderWidth: 1.2,
+    borderRadius: 10,
+    borderColor: colors.coloruse,
+    paddingHorizontal: 10,
+    paddingVertical: 15,
+    backgroundColor: colors.backgroundlight,
+  },
+  pieChartDetails: {
+    marginLeft: 20,
+    justifyContent: 'center',
+  },
+  detailRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 15,
+    marginRight: 30,
+  },
+  legendCircle: {
+    width: 20,
+    height: 20,
+    borderRadius: 10,
+    marginRight: 10,
+  },
+  detailText: {
+    fontSize: 16,
     fontWeight: 'bold',
     color: colors.text,
-    marginVertical: 10,
-    textAlign: 'center',
   },
-  calendar: {
-    marginBottom: 20,
-  },
-  chart: {
-    marginVertical: 8,
-    borderRadius: 16,
+  percentageText: {
+    fontSize: 14,
+    color: colors.placeholder,
+    marginTop: 2,
   },
 });
 

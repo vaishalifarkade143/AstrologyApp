@@ -49,6 +49,7 @@ import StudentActivity from '../screens/StudentActivity';
 import Ecampus from '../screens/Ecampus';
 import Fee from '../screens/FeesScreen';
 import PaidFee from '../screens/PaidFee';
+import PayNow from '../screens/PayNow';
 
 const Stack = createStackNavigator();
 const StackNavigator = () => {

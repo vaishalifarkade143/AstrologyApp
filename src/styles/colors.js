@@ -18,7 +18,9 @@ const colors = {
     backgroundlight:"#d0ece7",
     brown:"#A1887F",
     bluedark:"#213ccf",
-    bluelight:"#b2bdf6"
+    bluelight:"#b2bdf6",
+    holiday:"#497AC5FF"
+    
   };
   
   export default colors;

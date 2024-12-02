@@ -105,10 +105,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     fontFamily: 'Roboto',
   },
-  dateText: {
-    fontSize: 14,
-    color: colors.textSecondary || '#666',
-  },
+  
   rec: {
     fontSize: 14,
     fontWeight: 'bold',
