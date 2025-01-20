@@ -1,7 +1,9 @@
+
 import React, { useContext, useRef, useState } from 'react';
 import {
     View, StyleSheet, TextInput, TouchableOpacity,
     ImageBackground, Text, Animated, Dimensions,
+    FlatList,
 } from 'react-native';
 import { CalendarList } from 'react-native-calendars';
 import colors from '../styles/colors';
@@ -21,11 +23,35 @@ const StudentActivity = ({ navigation }) => {
     const buttonWidth = width / 4; // Adjusted for two buttons
     const translateX = useRef(new Animated.Value(0)).current;
 
+    // Dummy data for Homework and Classwork
+    const homeworkData = [
+        { id: '1', title: 'Math Assignment' },
+        { id: '2', title: 'Science Project' },
+        { id: '3', title: 'History Essay' },
+        { id: '4', title: 'Math Assignment' },
+        { id: '5', title: 'Science Project' },
+        { id: '6', title: 'History Essay' },
+    ];
+
+    const classworkData = [
+        { id: '1', title: 'Math Classwork' },
+        { id: '2', title: 'English Notes' },
+        { id: '3', title: 'Physics Exercises' },
+        { id: '4', title: 'Math Assignment' },
+        { id: '5', title: 'Science Project' },
+        { id: '6', title: 'History Essay' },
+    ];
+
     // Handle Search Input
     const handleSearch = (text) => {
         setSearchQuery(text);
-        // Add additional search logic if necessary
     };
+
+    // Filtered data based on selected option
+    const filteredData =
+        selectedOption === 'Home Work'
+            ? homeworkData.filter((item) => item.title.toLowerCase().includes(searchQuery.toLowerCase()))
+            : classworkData.filter((item) => item.title.toLowerCase().includes(searchQuery.toLowerCase()));
 
     // Update the Calendar Month
     const handleMonthChange = (direction) => {
@@ -45,19 +71,6 @@ const StudentActivity = ({ navigation }) => {
         }
     };
 
-    // Render the appropriate content based on selected option
-    const renderContent = () => {
-        if (!selectedOption) return null; // Guard against undefined state
-        switch (selectedOption) {
-            case 'Home Work':
-                return <Text>Content for Homework</Text>;
-            case 'Class Work':
-                return <Text>Content for Classwork</Text>;
-            default:
-                return null;
-        }
-    };
-
     // Handle Button Press (with Animation)
     const handleButtonPress = (option, index) => {
         setSelectedOption(option);
@@ -66,6 +79,13 @@ const StudentActivity = ({ navigation }) => {
             useNativeDriver: true,
         }).start();
     };
+
+    // Render a single FlatList item
+    const renderItem = ({ item }) => (
+        <View style={styles.itemContainer}>
+            <Text style={styles.itemTitle}>{item.title}</Text>
+        </View>
+    );
 
     return (
         <View style={styles.container}>
@@ -77,7 +97,7 @@ const StudentActivity = ({ navigation }) => {
             />
 
             {/* Search Bar */}
-            <View style={[styles.searchContainer, { backgroundColor: theme.colors.background }]}>
+            {/* <View style={[styles.searchContainer, { backgroundColor: theme.colors.background }]}> */}
                 <TextInput
                     style={[styles.searchInput, { backgroundColor: theme.colors.card }]}
                     placeholder="Search"
@@ -85,7 +105,7 @@ const StudentActivity = ({ navigation }) => {
                     value={searchQuery}
                     onChangeText={handleSearch}
                 />
-            </View>
+            {/* </View> */}
 
             {/* Main Content */}
             <View style={[styles.roundedContainer, { backgroundColor: theme.colors.background }]}>
@@ -130,8 +150,8 @@ const StudentActivity = ({ navigation }) => {
                 {/* Divider */}
                 <View style={styles.dividerView} />
 
- {/* Option Buttons */}
- <View style={styles.optionContainer}>
+                {/* Option Buttons */}
+                <View style={styles.optionContainer}>
                     <Animated.View
                         style={[
                             styles.slider,
@@ -149,7 +169,7 @@ const StudentActivity = ({ navigation }) => {
                             key={item.option}
                             style={[
                                 styles.button,
-                                item.customStyle, // Apply specific border radius styles
+                                item.customStyle,
                                 selectedOption === item.option
                                     ? styles.selectedButton
                                     : styles.unselectedButton,
@@ -174,10 +194,14 @@ const StudentActivity = ({ navigation }) => {
                         </TouchableOpacity>
                     ))}
                 </View>
-                {/* Content Area */}
-                <View style={styles.contentContainer}>
-                    {renderContent()}
-                </View>
+
+                {/* Content Area (FlatList) */}
+                <FlatList
+                    data={filteredData}
+                    renderItem={renderItem}
+                    keyExtractor={(item) => item.id}
+                    contentContainerStyle={styles.flatListContainer}
+                />
             </View>
         </View>
     );
@@ -193,15 +217,8 @@ const styles = StyleSheet.create({
         marginTop: 5,
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,
-        padding: 15,
-    },
-    searchContainer: {
-        paddingHorizontal: 10,
-        paddingVertical: 3,
-        marginLeft: 10,
-        marginRight: 10,
-        borderRadius: 12,
-        marginTop: -5,
+        // padding: 15,
+        overflow: 'hidden',
     },
     searchInput: {
         borderRadius: 10,
@@ -210,6 +227,8 @@ const styles = StyleSheet.create({
         color: colors.text,
         borderWidth: 1,
         borderColor: colors.lightGray,
+        marginLeft:10,
+        marginRight:10
     },
     calendarHeaderBackground: {
         width: "100%",
@@ -223,6 +242,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         width: '90%',
         paddingHorizontal: 10,
+        marginLeft:14
     },
     arrow: {
         fontSize: 24,
@@ -238,10 +258,9 @@ const styles = StyleSheet.create({
         backgroundColor: colors.white,
         borderBottomWidth: 1,
         borderBottomColor: colors.lightGray,
-        marginLeft: -15,
     },
     dividerView: {
-        marginTop: -50,
+        marginTop: -40,
         height: 0.75,
         backgroundColor: colors.placeholder,
         alignSelf: 'center',
@@ -252,7 +271,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignSelf: 'center',
         marginTop: 10,
-        paddingHorizontal: 20,
+        paddingHorizontal: 10,
     },
     slider: {
         position: 'absolute',
@@ -267,7 +286,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         flexDirection: 'row',
         borderRadius: 20,
-        marginHorizontal: 5,
     },
     selectedButton: {
         backgroundColor: colors.coloruse,
@@ -279,36 +297,25 @@ const styles = StyleSheet.create({
         color: "#ffffff",
         fontWeight: 'bold',
         marginLeft: 10,
-       
     },
     unselectedButtonText: {
         color: colors.coloruse,
         fontWeight: 'bold',
-        marginLeft: 10,
+        marginLeft: 15,
     },
-    contentContainer: {
-        marginTop: 20,
-        alignItems: 'center',
+    flatListContainer: {
+        paddingTop: 10,
     },
-    icon: {
-        marginRight: 5,
-        padding:5,
+    itemContainer: {
+        padding: 15,
+        marginVertical: 5,
+        backgroundColor: colors.backgroundlight,
+        borderRadius: 10,
+        margin:10
     },
-    homeworkButton: {
-        paddingLeft:10,
-        paddingRight:10,
-        borderTopRightRadius: 0,
-        borderBottomRightRadius: 0,
-        borderTopLeftRadius: 20,
-        borderBottomLeftRadius: 20,
-    },
-    classworkButton: {
-        paddingRight:10,
-        paddingLeft:10,
-        borderTopLeftRadius: 0,
-        borderBottomLeftRadius: 0,
-        borderTopRightRadius: 20,
-        borderBottomRightRadius: 20,
+    itemTitle: {
+        fontSize: 16,
+        color: colors.text,
     },
 });
 

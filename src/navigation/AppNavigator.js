@@ -16,6 +16,9 @@ import Ecampus from '../screens/Ecampus';
 import Fee from '../screens/FeesScreen';
 import PaidFee from '../screens/PaidFee';
 import PayNow from '../screens/PayNow';
+import EcampusCircular from '../screens/EcampusCircular';
+import EcampusMessage from '../screens/EcampusMessage';
+
 
 const Stack = createStackNavigator();
 const AppNavigator = () => (
@@ -34,6 +37,8 @@ const AppNavigator = () => (
     <Stack.Screen name="Leaveapplication" component={LeaveApplication} options={{ headerTitle: () => <Text>LeaveApplication</Text> }} />
     <Stack.Screen name="Studentactivity" component={StudentActivity} options={{ headerTitle: () => <Text>StudentActivity</Text> }} />
     <Stack.Screen name="Ecampus" component={Ecampus} options={{ headerTitle: () => <Text>Ecampus</Text> }} />
+    <Stack.Screen name="Ecampuscircular" component={EcampusCircular} options={{ headerTitle: () => <Text>Ecampus</Text> }} />
+    <Stack.Screen name="Ecampusmessage" component={EcampusMessage} options={{ headerTitle: () => <Text>Ecampus</Text> }} />
     <Stack.Screen name="Login" component={LoginScreen} options={{ headerTitle: () => <Text>Login</Text> }} />
     <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} options={{ headerTitle: () => <Text>ForgotPassword</Text> }} />
   </Stack.Navigator>

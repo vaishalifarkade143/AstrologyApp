@@ -1,23 +1,50 @@
+
 import React, { useState, useContext, useRef } from 'react';
 import {
-  View, Text, StyleSheet, TouchableOpacity, ScrollView, Animated, Dimensions, StatusBar
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  ScrollView,
+  Animated,
+  Dimensions,
+  StatusBar,
+  FlatList,
 } from 'react-native';
 import Header from '../common/Header';
 import colors from '../styles/colors';
-import Modal from "react-native-modal";
+import Modal from 'react-native-modal';
 import FrameComponent from '../components/FrameComponent';
 import ProfileComponent from '../components/ProfilComponent';
 import ModalComponent from '../components/ModalComponent';
 import { PreferencesContext } from '../context/PreferencesContext';
+import PieChart from 'react-native-pie-chart';
 
-const { width } = Dimensions.get("window");
+const { width } = Dimensions.get('window');
 
 const HomeScreen = ({ navigation }) => {
   const { theme } = useContext(PreferencesContext);
   const [visible, setVisible] = useState(false);
-  const [selectedOption, setSelectedOption] = useState('option1');
+  const [selectedOption, setSelectedOption] = useState('Events');
   const buttonWidth = width / 5;
   const translateX = useRef(new Animated.Value(0)).current;
+
+  // Dummy data for Homework and Classwork
+  const homeworkData = [
+    { id: '1', title: 'Math Assignment' },
+    { id: '2', title: 'Science Project' },
+    { id: '3', title: 'History Essay' },
+    { id: '4', title: 'Math Assignment' },
+    { id: '5', title: 'Science Project' },
+  ];
+
+  const classworkData = [
+    { id: '1', title: 'Math Classwork' },
+    { id: '2', title: 'English Notes' },
+    { id: '3', title: 'Physics Exercises' },
+    { id: '4', title: 'Math Assignment' },
+    { id: '5', title: 'Science Project' },
+  ];
 
   const handleSignOut = () => {
     console.log('Signing out...');
@@ -32,18 +59,93 @@ const HomeScreen = ({ navigation }) => {
     }).start();
   };
 
+  // Render content based on the selected option
   const renderContent = () => {
     switch (selectedOption) {
-      case 'option1':
-        return <Text>Content for Option 1</Text>;
-      case 'option2':
-        return <Text>Content for Option 2</Text>;
-      case 'option3':
-        return <Text>Content for Option 3</Text>;
-      case 'option4':
-        return <Text>Content for Option 4</Text>;
-      case 'option5':
-        return <Text>Content for Option 5</Text>;
+      case 'Events':
+        return
+      case 'Attendance': {
+        const attendance = {
+          '2023-11-01': { marked: true, color: 'green' },
+          '2023-11-02': { marked: true, color: 'red' },
+          '2023-11-03': { marked: true, color: 'green' },
+          '2023-11-04': { marked: true, color: 'green' },
+          '2023-11-05': { marked: true, color: 'red' },
+        };
+        const presentDays = Object.values(attendance).filter((day) => day.color === 'green').length;
+        const absentDays = Object.values(attendance).filter((day) => day.color === 'red').length;
+
+        return (
+          <View style={styles.pieChartContainer}>
+            <Text style={styles.detailText}>Attendance</Text>
+            <View style={styles.pieChartContainerView}>
+              <PieChart
+                widthAndHeight={170}
+                series={[presentDays, absentDays]}
+                sliceColor={[colors.coloruse, colors.red]}
+                coverRadius={0.6}
+                coverFill={theme.colors.background}
+              />
+              <View style={styles.pieChartDetails}>
+                <View style={styles.detailRow}>
+                  <View
+                    style={[styles.legendCircle, { backgroundColor: colors.coloruse }]}
+                  />
+                  <View>
+                    <Text style={styles.detailText}>Present: {presentDays}</Text>
+                    <Text style={styles.percentageText}>
+                      {((presentDays / (presentDays + absentDays)) * 100).toFixed(2)}%
+                    </Text>
+                  </View>
+                </View>
+                <View style={styles.detailRow}>
+                  <View
+                    style={[styles.legendCircle, { backgroundColor: colors.red }]}
+                  />
+                  <View>
+                    <Text style={styles.detailText}>Absent: {absentDays}</Text>
+                    <Text style={styles.percentageText}>
+                      {((absentDays / (presentDays + absentDays)) * 100).toFixed(2)}%
+                    </Text>
+                  </View>
+                </View>
+              </View>
+            </View>
+          </View>
+        );
+      }
+      case 'Classwork':
+        return (
+          <View style={styles.listContainer}>
+          <FlatList
+            data={classworkData}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => (
+              <View style={styles.itemContainer}>
+                <Text style={styles.itemTitle}>{item.title}</Text>
+              </View>
+            )}
+            nestedScrollEnabled
+          />
+        </View>
+        );
+      case 'Homework':
+        return (
+          <View style={styles.listContainer}>
+          <FlatList
+            data={homeworkData}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => (
+              <View style={styles.itemContainer}>
+                <Text style={styles.itemTitle}>{item.title}</Text>
+              </View>
+            )}
+            nestedScrollEnabled
+            showsVerticalScrollIndicator={false}
+            // contentContainerStyle={styles.listContent}
+          />
+          </View>
+        );
       default:
         return null;
     }
@@ -57,7 +159,7 @@ const HomeScreen = ({ navigation }) => {
         rightIcon={require('../images/logout.png')}
         onClickRightIcon={handleSignOut}
       />
-      
+
       <View style={[styles.roundedContainer, { backgroundColor: theme.colors.background }]}>
         <ProfileComponent />
         <FrameComponent />
@@ -68,21 +170,23 @@ const HomeScreen = ({ navigation }) => {
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={styles.scrollContentContainer}
         >
-          {['option1', 'option2', 'option3', 'option4', 'option5'].map((option, index) => (
+          {['Events', 'Attendance', 'Classwork', 'Homework'].map((option, index) => (
             <TouchableOpacity
               key={option}
               style={[styles.button, selectedOption === option && styles.selectedButton]}
               onPress={() => handleButtonPress(option, index)}
             >
-              <Text style={selectedOption === option ? styles.selectedText : styles.buttonText}>
-                {`Option ${index + 1}`}
+              <Text
+                style={selectedOption === option ? styles.selectedText : styles.buttonText}
+              >
+                {option}
               </Text>
             </TouchableOpacity>
           ))}
         </ScrollView>
 
         {/* Divider Animation */}
-        <Animated.View
+        {/* <Animated.View
           style={[
             styles.divider,
             {
@@ -90,12 +194,11 @@ const HomeScreen = ({ navigation }) => {
               transform: [{ translateX }],
             },
           ]}
-        />
+        /> */}
 
+        <View style={[styles.dividerView, { width: Dimensions.get('window').width * 0.916, }]} />
         {/* Content Area */}
-        <View style={styles.contentContainer}>
-          {renderContent()}
-        </View>
+        <View style={styles.contentContainer}>{renderContent()}</View>
 
         {/* Add Button */}
         <TouchableOpacity style={styles.addButton} onPress={() => setVisible(true)}>
@@ -116,7 +219,7 @@ const HomeScreen = ({ navigation }) => {
       </View>
 
       {/* Company Label */}
-      <View style={{ backgroundColor: colors.coloruse }}>
+      <View style={{ backgroundColor: colors.coloruse, }}>
         <Text style={styles.companyLabel}>Educron</Text>
       </View>
     </View>
@@ -146,6 +249,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     elevation: 5,
+    zIndex: 10,
   },
   addButtonText: {
     fontSize: 30,
@@ -158,47 +262,98 @@ const styles = StyleSheet.create({
   companyLabel: {
     textAlign: 'center',
     color: colors.background,
-    fontFamily: "Roboto",
-    fontWeight: "bold",
+    fontWeight: 'bold',
     fontSize: 12,
-    paddingTop: 3,
-    paddingBottom: 3,
+    paddingVertical: 3,
   },
   scrollContentContainer: {
     flexDirection: 'row',
-    marginTop: 10,
+    marginTop: 9,
+    gap: 10,
   },
   button: {
-    width: width / 5,
-    height: 55,
-    paddingVertical: 15,
+    width: width / 4,
+    height: 40,
     alignItems: 'center',
+    justifyContent: 'center'
   },
   selectedButton: {
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
     backgroundColor: colors.backgroundlight,
   },
   buttonText: {
-    fontFamily: "Roboto",
-    fontWeight: "bold",
+    fontWeight: 'bold',
     fontSize: 13,
     color: '#000',
     textAlign: 'center',
   },
   selectedText: {
-    fontFamily: "Roboto",
-    fontWeight: "bold",
+    fontWeight: 'bold',
     fontSize: 13,
     color: colors.coloruse,
   },
   divider: {
     height: 3,
+    // width:300,
     backgroundColor: colors.backgroundlight,
-    position: 'absolute',
-    bottom: 0,
+    top: -130,
   },
   contentContainer: {
+    flex: 1,
+    // marginBottom: 50,
+    top: -110,
+  },
+  pieChartContainerView: {
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
     marginTop: 20,
-    paddingHorizontal: 10,
+  },
+  itemContainer: {
+    padding: 15,
+    backgroundColor: colors.backgroundlight,
+    marginBottom: 10,
+    borderRadius: 8,
+  },
+  itemTitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  pieChartContainer: {
+    borderWidth: 1.2,
+    borderRadius: 10,
+    borderColor: colors.coloruse,
+    paddingVertical: 15,
+    backgroundColor: colors.backgroundlight,
+    marginTop: -10, // Adjust this to reduce space
+  },
+  pieChartDetails: {
+    marginLeft: 10,
+    justifyContent: 'center',
+  },
+  detailText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: colors.text,
+    alignSelf: "center",
+    paddingTop: -15,
+  },
+  detailRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent:"center",
+    marginBottom: 15,
+    // marginRight: 30,
+  },
+  dividerView: {
+    height: 3,
+    backgroundColor: colors.backgroundlight,
+    top: -137,
+    // marginRight:-30
+  },
+  listContainer: {
+    flex: 1, // Ensures FlatList expands to fill the remaining space
+    marginBottom: -100, // Prevents overlapping with the floating Add button
   },
 });
 

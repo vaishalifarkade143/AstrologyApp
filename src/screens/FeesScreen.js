@@ -1,9 +1,10 @@
 import React, { useContext } from 'react';
-import { View, StyleSheet, Text, Dimensions, Image, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, Text, Dimensions, Image, TouchableOpacity, ImageBackground } from 'react-native';
 import colors from '../styles/colors';
 import Header from '../common/Header';
 import { PreferencesContext } from '../context/PreferencesContext';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import spacing from '../styles/spacing';
 
 const { width } = Dimensions.get("window");
 
@@ -18,28 +19,28 @@ const Fee = ({ navigation }) => {
         onClickLeftIcon={() => navigation.goBack()}
       />
 
-      <View 
-      style={[styles.roundedContainer, 
-      { backgroundColor: theme.colors.background }]}>
-        <Image source={require('../images/money.jpg')} style={styles.image} />
-
+      <View
+        style={[styles.roundedContainer,
+        { backgroundColor: theme.colors.background }]}>
+        {/* <Image source={require('../images/money.jpg')} style={styles.image} /> */}
+        <ImageBackground
+          source={require('../images/money.jpg')}
+          style={styles.calendarHeaderBackground}
+        > 
+        </ImageBackground>
         {/* Paid and Due Containers */}
         <View style={styles.rowContainer}>
           {/* TouchableOpacity for Paid Fee */}
           <TouchableOpacity onPress={() => {
-             navigation.navigate('Paidfee');
-          }} 
-          style={styles.touchableFee}>
+            navigation.navigate('Paidfee');
+          }}
+            style={styles.touchableFee}>
             <View style={styles.paidfee}>
               <View style={[styles.iconWrapper, { backgroundColor: colors.coloruse }]}>
                 <FontAwesome name="money" size={26} color="#fff" />
               </View>
-              {/* <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <Image
-                  source={require('../images/rupee.png')}
-                  style={[styles.rupeeIcon, { tintColor: colors.coloruse }]}
-                /> */}
-                <Text style={[styles.textStyle, { color: colors.coloruse }]}>₹ 45545</Text>
+
+              <Text style={[styles.textStyle, { color: colors.coloruse }]}>₹ 45545</Text>
               {/* </View> */}
               <Text style={styles.textStyle}>Paid Fee</Text>
             </View>
@@ -50,12 +51,8 @@ const Fee = ({ navigation }) => {
             <View style={[styles.iconWrapper, { backgroundColor: colors.red }]}>
               <FontAwesome name="money" size={26} color="#fff" />
             </View>
-            {/* <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <Image
-                source={require('../images/rupee.png')}
-                style={[styles.rupeeIcon, { tintColor: colors.red }]}
-              /> */}
-              <Text style={[styles.textStyle, { color: colors.red }]}>₹ 45545</Text>
+
+            <Text style={[styles.textStyle, { color: colors.red }]}>₹ 45545</Text>
             {/* </View> */}
             <Text style={styles.textStyle}>Due Fee</Text>
           </View>
@@ -72,21 +69,17 @@ const Fee = ({ navigation }) => {
             <FontAwesome name="money" size={26} color="#fff" />
           </View>
           <View>
-            {/* <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <Image
-                source={require('../images/rupee.png')}
-                style={[styles.rupeeIcon, { tintColor: colors.bluedark }]}
-              /> */}
-              <Text style={[styles.textStyle, { color: colors.bluedark }]}>₹ 45545</Text>
+
+            <Text style={[styles.textStyle, { color: colors.bluedark }]}>₹ 45545</Text>
             {/* </View> */}
             <Text style={styles.textStyle}>Total Fee</Text>
           </View>
         </View>
 
         {/* Pay Button */}
-        <TouchableOpacity style={styles.payButton} onPress={() => { 
-           navigation.navigate('Paynow');
-           }}>
+        <TouchableOpacity style={styles.payButton} onPress={() => {
+          navigation.navigate('Paynow');
+        }}>
           <Text style={styles.payButtonText}>Pay Now</Text>
         </TouchableOpacity>
       </View>
@@ -104,8 +97,17 @@ const styles = StyleSheet.create({
     marginTop: 5,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
-    padding: 15,
-    elevation: 5,
+    overflow: 'hidden',
+  },
+  calendarHeaderBackground: {
+    width: "105%", // Adjust width to cover the screen fully
+    height: Dimensions.get('window').height * 0.3, // 30% of screen height
+    justifyContent: 'center',
+    borderTopLeftRadius: 20, // Add top-left radius
+    borderTopRightRadius: 20, // Add top-right radius
+    overflow: 'hidden', // Ensure image respects border radius
+    marginTop: -12,
+    marginBottom: 10
   },
   image: {
     width: '100%', // Full width of the container
@@ -117,7 +119,9 @@ const styles = StyleSheet.create({
   rowContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: 15,
+    // marginTop: 5,
+    marginLeft:spacing.space_ten,
+    marginRight:spacing.space_ten,
   },
   touchableFee: {
     flex: 1.2,
@@ -156,6 +160,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',
+    marginLeft:spacing.space_ten,
+    marginRight:spacing.space_ten,
   },
   textStyle: {
     fontFamily: "Roboto",
@@ -165,7 +171,7 @@ const styles = StyleSheet.create({
   },
   potliContainer: {
     position: 'absolute',
-    top: 350, // Adjust to overlap in the desired location
+    top: 350,
     width: 160,
     height: 160,
     borderRadius: 80,
@@ -180,6 +186,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     resizeMode: 'cover',
+    // marginBottom:spacing.space_ten
   },
   rupeeIcon: {
     width: 15,
@@ -205,11 +212,11 @@ const styles = StyleSheet.create({
   },
   payButton: {
     backgroundColor: colors.coloruse, // Background color for the button
-    paddingVertical: 15,
-    paddingHorizontal: 150,
+    paddingVertical: 10,
+    paddingHorizontal: 135,
     borderRadius: 10,
     alignSelf: 'center',
-    marginTop: 20,
+    marginTop: 15,
   },
   payButtonText: {
     color: '#fff',

@@ -123,27 +123,13 @@ const ProfileComponent = () => {
   if (error) {
     return <Text style={styles.errorText}>Error fetching profile: {error}</Text>;
   }
-  
-  // const imageUrl = profileData.image 
-  //   ? `https://acadicronbackend.educron.com/${profileData.image}` 
-  //   : <Ionicons name="person-circle-outline" size={24} color="#fff" />; // Replace with your default image path
-  
   return (
     <Card style={styles.card}>
       <Card.Content>
         <View style={styles.profileContainer}>
-          {/* Profile Image */}
-          {/* <Avatar.Image
-            size={80}
-            source={imageError ? { uri: '<Ionicons name="person-circle-outline" size={24} color="#fff" />' } : { uri: imageUrl }} // Use default if there's an error
-            // source={{ uri: imageUrl }}
-            style={styles.avatar}
-            onError={() => {
-              console.error('Error loading image'); 
-            }}
-          /> */}
+         
            <View style={styles.avatarFallback}>
-            <Ionicons name="person-circle-sharp" size={110} color={colors.coloruse} />
+            <Ionicons name="person-circle-sharp" size={67} color={colors.coloruse}  />
           </View>
 
           {/* Profile Information */}
@@ -151,7 +137,7 @@ const ProfileComponent = () => {
             <Text style={styles.name}>{`${profileData.firstname} ${profileData.lastname}`}</Text>
             <Text style={styles.info}>Roll No: {profileData.roll_no}</Text>
             <Text style={styles.info}>Class: {profileData.class_name}</Text>
-            <Text style={styles.info}>Section: {profileData.section_name}</Text>
+            {/* <Text style={styles.info}>Section: {profileData.section_name}</Text> */}
           </View>
         </View>
       </Card.Content>
@@ -165,9 +151,9 @@ const styles = StyleSheet.create({
     marginHorizontal: -1,
     borderRadius: 20,
     borderColor: colors.coloruse,
-    marginBottom: 15,
+    marginBottom: 10,
     borderWidth: 1,
-    elevation: 4, // Adds a subtle shadow effect for Android
+   
   },
   profileContainer: {
     flexDirection: 'row',
@@ -178,14 +164,12 @@ const styles = StyleSheet.create({
   },
   avatarFallback: {
     marginRight: 16,
-    // alignItems: 'center',
-    // justifyContent: 'center',
-    width: 110,
-    height: 110,
-    borderRadius: 55, // Make the view circular
+    width: 70,
+    height: 70,
+    borderRadius: 35, // Make the view circular
     borderWidth: 1.5,
     borderColor: colors.coloruse,
-    overflow: 'hidden',
+    
   },
   infoContainer: {
     flex: 1,

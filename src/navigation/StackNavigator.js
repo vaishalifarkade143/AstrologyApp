@@ -1,36 +1,3 @@
-// import React, { useEffect } from 'react';
-// import { createStackNavigator } from '@react-navigation/stack';
-// import HomeScreen from '../screens/HomeScreen';
-// import LoginScreen from '../screens/LoginScreen';
-// import SplashScreen from '../screens/SplashScreen';
-// import ForgotPasswordScreen from '../screens/ForgotPasswordScreen';
-// import ProfileScreen from '../screens/ProfileScreen';
-// import FrameComponent from '../components/FrameComponent';
-// import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
-
-// const Stack = createStackNavigator();
-// const StackNavigator = () => {
-//   return (
-//     <Stack.Navigator
-//       screenOptions={{
-//         headerShown: false,
-//       }}>
-//          <Stack.Screen name="Splash" component={SplashScreen} />
-//          <Stack.Screen name="Login" component={LoginScreen} />
-//          <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen}
-//           options={{
-//             title: <Text>Forgot Password</Text>  // Wrap the title in a <Text> component
-//           }}
-//           />
-//         <Stack.Screen name="Home" component={HomeScreen} />
-//         <Stack.Screen name="FrameComponent" component={FrameComponent} />
-//         <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
-//     </Stack.Navigator>
-//   );
-// };
-// export default StackNavigator;
-
-
 
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -50,6 +17,8 @@ import Ecampus from '../screens/Ecampus';
 import Fee from '../screens/FeesScreen';
 import PaidFee from '../screens/PaidFee';
 import PayNow from '../screens/PayNow';
+import EcampusCircular from '../screens/EcampusCircular';
+import EcampusMessage from '../screens/EcampusMessage';
 
 const Stack = createStackNavigator();
 const StackNavigator = () => {
@@ -74,6 +43,8 @@ const StackNavigator = () => {
       <Stack.Screen name="Leaveapplication" component={LeaveApplication} options={{ headerTitle: () => <Text>LeaveApplication</Text> }} />
     <Stack.Screen name="Studentactivity" component={StudentActivity} options={{ headerTitle: () => <Text>StudentActivity</Text> }} />
     <Stack.Screen name="Ecampus" component={Ecampus} options={{ headerTitle: () => <Text>Ecampus</Text> }} />
+    <Stack.Screen name="Ecampuscircular" component={EcampusCircular} options={{ headerTitle: () => <Text>Ecampus</Text> }} />
+    <Stack.Screen name="Ecampusmessage" component={EcampusMessage} options={{ headerTitle: () => <Text>Ecampus</Text> }} />
     </Stack.Navigator>
   );
 };
